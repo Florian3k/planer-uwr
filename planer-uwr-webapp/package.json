@@ -9,11 +9,13 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.10.5",
+    "bcrypt": "^5.0.0",
     "history": "^5.0.0",
     "meteor-node-stubs": "^1.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-router-dom": "^6.0.0-beta.0"
+    "react-router-dom": "^6.0.0-beta.0",
+    "zod": "^1.11.5"
   },
   "devDependencies": {
     "@types/meteor": "^1.4.48",
