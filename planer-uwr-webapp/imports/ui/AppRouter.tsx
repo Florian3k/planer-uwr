@@ -1,7 +1,8 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Hello } from './pages/Hello';
-import { Index } from './pages/Index';
+import { LandingPage } from './pages/LandingPage';
+import { UserLandingPage } from './pages/UserLandingPage';
 import { Info } from './pages/Info';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
@@ -11,12 +12,14 @@ export const AppRouter = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Index />} />
-      {user && (
+      {user ? (
         <>
+          <Route path="/" element={<UserLandingPage />} />
           <Route path="/hello" element={<Hello />} />
           <Route path="/info" element={<Info />} />
         </>
+      ) : (
+        <Route path="/" element={<LandingPage />} />
       )}
       <Route path="/*" element={<Navigate to="/" />} />
     </Routes>
