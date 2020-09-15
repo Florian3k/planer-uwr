@@ -6,5 +6,6 @@ import { render } from 'react-dom';
 import { App } from '/imports/ui/App';
 
 Meteor.startup(() => {
+  document.body.classList.add('bp3-dark');
   render(<App />, document.getElementById('react-target'));
 });
