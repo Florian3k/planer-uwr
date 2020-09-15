@@ -1,3 +1,4 @@
+import { Button, Classes, FormGroup } from '@blueprintjs/core';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import React, { useState } from 'react';
@@ -21,19 +22,27 @@ export const LandingPage = () => {
         });
       }}
     >
-      <input
-        type="text"
-        name="username"
-        value={username}
-        onChange={e => setUsername(e.target.value)}
-      />
-      <input
-        type="password"
-        name="password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-      />
-      <input type="submit" value="Login" disabled={loggingIn} />
+      <FormGroup label="Login">
+        <input
+          className={Classes.INPUT}
+          type="text"
+          name="username"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+        />
+      </FormGroup>
+      <FormGroup label="Password">
+        <input
+          className={Classes.INPUT}
+          type="password"
+          name="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+        />
+      </FormGroup>
+      <Button type="submit" intent="primary" disabled={loggingIn}>
+        Login
+      </Button>
     </form>
   );
 };

@@ -1,3 +1,4 @@
+import { Button } from '@blueprintjs/core';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import React from 'react';
@@ -8,7 +9,9 @@ export const UserLandingPage = () => {
   return (
     <>
       <p>Hello {user?.username}</p>
-      <button onClick={() => Meteor.logout()}>Logout</button>
+      <Button intent="primary" onClick={() => Meteor.logout()}>
+        Logout
+      </Button>
     </>
   );
 };
