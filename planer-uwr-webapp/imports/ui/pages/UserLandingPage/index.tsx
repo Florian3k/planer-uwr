@@ -1,17 +1,21 @@
-import { Button } from '@blueprintjs/core';
-import { Meteor } from 'meteor/meteor';
-import { useTracker } from 'meteor/react-meteor-data';
 import React from 'react';
+import { CreatePlan } from './CreatePlan';
+import { ProfileInfo } from './ProfileInfo';
+import { UserPlans } from './UserPlans';
 
 export const UserLandingPage = () => {
-  const user = useTracker(() => Meteor.user());
-
   return (
-    <>
-      <p>Hello {user?.username}</p>
-      <Button intent="primary" onClick={() => Meteor.logout()}>
-        Logout
-      </Button>
-    </>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        height: '90vh',
+      }}
+    >
+      <UserPlans />
+      <CreatePlan />
+      <ProfileInfo />
+    </div>
   );
 };
