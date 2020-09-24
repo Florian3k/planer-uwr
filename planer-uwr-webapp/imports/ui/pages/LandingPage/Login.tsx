@@ -1,6 +1,7 @@
 import { Button, Card, Classes, Elevation, FormGroup } from '@blueprintjs/core';
 import { Meteor } from 'meteor/meteor';
 import React, { useState } from 'react';
+import { isMeteorError } from '../../../utils';
 
 interface LoginProps {
   loggingIn: boolean;
@@ -32,7 +33,7 @@ export const Login = ({ loggingIn }: LoginProps) => {
           }
 
           Meteor.loginWithPassword(username, password, err => {
-            if (err) {
+            if (isMeteorError(err)) {
               if (err.reason === 'User not found') setError('Nie znaleziono użytkownika');
               else if (err.reason === 'Incorrect password') setError('Nieprawidłowe hasło');
             }

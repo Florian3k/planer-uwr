@@ -1,6 +1,7 @@
 import { Button, Card, Classes, Elevation, FormGroup } from '@blueprintjs/core';
 import { Accounts } from 'meteor/accounts-base';
 import React, { useState } from 'react';
+import { isMeteorError } from '../../../utils';
 
 interface RegisterProps {
   loggingIn: boolean;
@@ -20,19 +21,23 @@ export const Register = ({ loggingIn }: RegisterProps) => {
       </h2>
       {error &&
         <div
-          style={{ textAlign: 'center', marginBottom: '0.75em', color: 'red' }}
-          className="bp3-form-helper-text"> {error}
+          style={{ textAlign: 'center', margin: '0 auto 12px auto', color: 'red', maxWidth: '14em' }}
+          className="bp3-form-helper-text">{error}
         </div>
       }
       <form
         onSubmit={e => {
           e.preventDefault();
+          if (!username || !email || !password || !passwordRepeat) {
+            setError('Proszę wypełnić wszystkie pola');
+            return;
+          }
           if (password != passwordRepeat) {
             setError('Podane hasła nie zgadzają się');
             return;
           }
           Accounts.createUser({ username, email, password }, err => {
-            if (err) {
+            if (isMeteorError(err)) {
               if (err.reason === 'Username already exists.') setError('Podana nazwa użytkownika jest już zajęta');
               else if (err.reason === 'Email already exists.') setError('Podany email jest już zajęty');
             }
