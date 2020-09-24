@@ -1,6 +1,7 @@
 import { Button, Card, Classes, Elevation, FormGroup } from '@blueprintjs/core';
 import { Accounts } from 'meteor/accounts-base';
 import React, { useState } from 'react';
+import { isMeteorError } from '../../../utils';
 
 interface RegisterProps {
   loggingIn: boolean;
@@ -24,8 +25,8 @@ export const Register = ({ loggingIn }: RegisterProps) => {
           if (password != passwordRepeat) {
             return;
           }
-          Accounts.createUser({ username, email, password }, err => {
-            if (err) {
+          Accounts.createUser({ username, email, password }, (err) => {
+            if (isMeteorError(err)) {
               console.log(err);
             } else {
               setUsername('');
