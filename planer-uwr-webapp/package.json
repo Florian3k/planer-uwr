@@ -16,7 +16,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^6.0.0-beta.0",
-    "zod": "^1.11.5"
+    "zod": "^2.0.0-beta.8"
   },
   "devDependencies": {
     "@types/meteor": "^1.4.48",
