@@ -10,8 +10,6 @@ export const AppRouter = () => {
   const user = useTracker(() => Meteor.user());
   const loggingIn = useTracker(() => Meteor.loggingIn());
 
-  console.log(user, loggingIn);
-
   return (
     <Routes>
       {user ? (
