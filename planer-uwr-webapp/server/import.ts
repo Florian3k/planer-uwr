@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { join, resolve } from 'path';
+import { join } from 'path';
 import util from 'util';
 import * as z from 'zod';
 
@@ -26,9 +26,9 @@ export const importCourses = async () => {
   }
   const courses = z.array(courseSchema).parse(JSON.parse(file));
 
-  // Typings expect field _id to exist, but it's completely ok to pass document without it
-  // https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#insertMany
-  await Courses.rawCollection().insertMany(courses as any);
+  courses.forEach(course => {
+    Courses.insert(course)
+  })
 };
 
 export const importOffers = async () => {
@@ -38,7 +38,7 @@ export const importOffers = async () => {
   }
   const offers = z.array(offerSchema).parse(JSON.parse(file));
 
-  // Typings expect field _id to exist, but it's completely ok to pass document without it
-  // https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#insertMany
-  await Offers.rawCollection().insertMany(offers as any);
+  offers.forEach(offer => {
+    Offers.insert(offer)
+  })
 };
