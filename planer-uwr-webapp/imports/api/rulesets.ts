@@ -14,9 +14,9 @@ export interface Ruleset extends z.infer<typeof rulesetSchema> {
 
 export const Rulesets = new Mongo.Collection<Ruleset>('rulesets');
 
-Rulesets.rawCollection().createIndex({ name: 1 }, { unique: true });
-
 if (Meteor.isServer) {
+  Rulesets.rawCollection().createIndex({ name: 1 }, { unique: true });
+
   Meteor.publish('rulesets', function () {
     return Rulesets.find();
   });

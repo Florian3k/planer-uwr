@@ -24,9 +24,9 @@ export interface Offer extends z.infer<typeof offerSchema> {
 
 export const Offers = new Mongo.Collection('offer');
 
-Offers.rawCollection().createIndex({ id: 1 }, { unique: true });
-
 if (Meteor.isServer) {
+  Offers.rawCollection().createIndex({ id: 1 }, { unique: true });
+
   Meteor.publish('offers', function () {
     return Offers.find();
   });

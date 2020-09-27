@@ -26,8 +26,6 @@ export interface Plan extends z.infer<typeof planSchema> {
 
 export const Plans = new Mongo.Collection<Plan>('plans');
 
-Plans.rawCollection().createIndex({ name: 1 }, { unique: true });
-
 if (Meteor.isServer) {
   Meteor.publish('plans', function () {
     return Plans.find({ ownerId: this.userId });

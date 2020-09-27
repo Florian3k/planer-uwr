@@ -23,9 +23,9 @@ export interface Course extends z.infer<typeof courseSchema> {
 
 export const Courses = new Mongo.Collection<Course>('courses');
 
-Courses.rawCollection().createIndex({ id: 1 }, { unique: true });
-
 if (Meteor.isServer) {
+  Courses.rawCollection().createIndex({ id: 1 }, { unique: true });
+
   Meteor.publish('courses', function () {
     return Courses.find();
   });
