@@ -24,7 +24,7 @@ export interface Plan extends z.infer<typeof planSchema> {
   _id?: string;
 }
 
-export const Plans = new Mongo.Collection<Plan>('rulesets');
+export const Plans = new Mongo.Collection<Plan>('plans');
 
 Plans.rawCollection().createIndex({ name: 1 }, { unique: true });
 
