@@ -17,12 +17,14 @@ export const Login = ({ loggingIn }: LoginProps) => {
       <h2 style={{ textAlign: 'center', marginTop: 0 }}>
         <a href="#">Zaloguj się</a>
       </h2>
-      {error &&
+      {error && (
         <div
           style={{ textAlign: 'center', marginBottom: '0.75em', color: 'red' }}
-          className="bp3-form-helper-text"> {error}
+          className="bp3-form-helper-text"
+        >
+          {error}
         </div>
-      }
+      )}
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -34,10 +36,12 @@ export const Login = ({ loggingIn }: LoginProps) => {
 
           Meteor.loginWithPassword(username, password, err => {
             if (isMeteorError(err)) {
-              if (err.reason === 'User not found') setError('Nie znaleziono użytkownika');
-              else if (err.reason === 'Incorrect password') setError('Nieprawidłowe hasło');
-            }
-            else {
+              if (err.reason === 'User not found') {
+                setError('Nie znaleziono użytkownika');
+              } else if (err.reason === 'Incorrect password') {
+                setError('Nieprawidłowe hasło');
+              }
+            } else {
               setPassword('');
               setUsername('');
             }

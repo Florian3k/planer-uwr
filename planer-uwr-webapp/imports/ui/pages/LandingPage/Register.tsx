@@ -19,12 +19,19 @@ export const Register = ({ loggingIn }: RegisterProps) => {
       <h2 style={{ textAlign: 'center', marginTop: 0 }}>
         <a href="#">Zarejestruj się</a>
       </h2>
-      {error &&
+      {error && (
         <div
-          style={{ textAlign: 'center', margin: '0 auto 12px auto', color: 'red', maxWidth: '14em' }}
-          className="bp3-form-helper-text">{error}
+          style={{
+            textAlign: 'center',
+            margin: '0 auto 12px auto',
+            color: 'red',
+            maxWidth: '14em',
+          }}
+          className="bp3-form-helper-text"
+        >
+          {error}
         </div>
-      }
+      )}
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -38,10 +45,12 @@ export const Register = ({ loggingIn }: RegisterProps) => {
           }
           Accounts.createUser({ username, email, password }, err => {
             if (isMeteorError(err)) {
-              if (err.reason === 'Username already exists.') setError('Podana nazwa użytkownika jest już zajęta');
-              else if (err.reason === 'Email already exists.') setError('Podany email jest już zajęty');
-            }
-            else {
+              if (err.reason === 'Username already exists.') {
+                setError('Podana nazwa użytkownika jest już zajęta');
+              } else if (err.reason === 'Email already exists.') {
+                setError('Podany email jest już zajęty');
+              }
+            } else {
               setUsername('');
               setEmail('');
               setPassword('');
