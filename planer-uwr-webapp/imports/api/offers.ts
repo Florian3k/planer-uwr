@@ -22,7 +22,7 @@ export interface Offer extends z.infer<typeof offerSchema> {
   _id?: string;
 }
 
-export const Offers = new Mongo.Collection('offer');
+export const Offers = new Mongo.Collection<Offer>('offer');
 
 if (Meteor.isServer) {
   Offers.rawCollection().createIndex({ id: 1 }, { unique: true });
