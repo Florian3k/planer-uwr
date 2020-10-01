@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { Courses } from '/imports/api/courses';
 import { Offers } from '/imports/api/offers';
 import { Plans } from '/imports/api/plans';
+import { Listing } from './Listing';
 
 export const PlanPage = () => {
   const { planId } = useParams();
@@ -39,20 +40,22 @@ export const PlanPage = () => {
       <div>Liczba semestrów: {plan.semesters.length}</div>
       <br />
       <div style={{ display: 'flex' }}>
-        <div>
-          {courses.map(course => (
-            <div key={course._id}>
-              {course.name} - {course.semester}
-            </div>
-          ))}
-        </div>
-        <div>
-          {offers.map(offer => (
-            <div key={offer._id}>
-              {offer.name} - {offer.status}
-            </div>
-          ))}
-        </div>
+        <Listing courses={courses} offers={offers} />
+        {plan.semesters.map(semester => (
+          <div style={{ minWidth: 200, maxWidth: 250, flexGrow: 1 }}>
+            {semester.isGap ? (
+              'wolne :)'
+            ) : (
+              <>
+                {semester.courses.length ? (
+                  semester.courses.map(course => <div>{course}</div>)
+                ) : (
+                  <div>Brak przedmiotów</div>
+                )}
+              </>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
