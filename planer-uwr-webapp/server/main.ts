@@ -1,9 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Courses } from '/imports/api/courses';
-import { Offers } from '/imports/api/offers';
 import { Plans } from '/imports/api/plans';
 import { Rulesets } from '/imports/api/rulesets';
-import { importCourses, importOffers } from './import';
+import { importCourses } from './import';
 import '/imports/api/accounts';
 
 const elseThrow = (message: string): never => {
@@ -13,9 +12,6 @@ const elseThrow = (message: string): never => {
 Meteor.startup(async () => {
   if (Courses.find().count() === 0) {
     await importCourses();
-  }
-  if (Offers.find().count() === 0) {
-    await importOffers();
   }
   if (Rulesets.find().count() === 0) {
     Rulesets.insert({

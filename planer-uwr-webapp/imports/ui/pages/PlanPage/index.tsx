@@ -4,7 +4,6 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Courses } from '/imports/api/courses';
-import { Offers } from '/imports/api/offers';
 import { Plans } from '/imports/api/plans';
 import { Listing } from './Listing';
 
@@ -21,11 +20,6 @@ export const PlanPage = () => {
     return Courses.find().fetch();
   });
 
-  const offers = useTracker(() => {
-    Meteor.subscribe('offers');
-    return Offers.find().fetch();
-  });
-
   if (!planReady) {
     return <div>Wczytywanie planu...</div>;
   }
@@ -40,7 +34,7 @@ export const PlanPage = () => {
       <div>Liczba semestrów: {plan.semesters.length}</div>
       <br />
       <div style={{ display: 'flex' }}>
-        <Listing courses={courses} offers={offers} />
+        <Listing courses={courses} />
         {plan.semesters.map(semester => (
           <div style={{ minWidth: 200, maxWidth: 250, flexGrow: 1 }}>
             {semester.isGap ? (

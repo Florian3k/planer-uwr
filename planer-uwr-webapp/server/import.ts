@@ -4,7 +4,6 @@ import util from 'util';
 import * as z from 'zod';
 
 import { Courses, courseSchema } from '/imports/api/courses';
-import { Offers, offerSchema } from '/imports/api/offers';
 
 const readFile = util.promisify(fs.readFile);
 
@@ -19,26 +18,28 @@ const openFile = async (filename: string) => {
 };
 
 export const importCourses = async () => {
-  const file = await openFile('courses.json');
-  if (!file) {
-    console.warn('WARNING: courses.json not found!');
-    return;
+  const coursesFile = await openFile('courses.json');
+  const offersFile = await openFile('offer.json');
+  if (!coursesFile) {
+    return console.warn('WARNING: courses.json not found!');
   }
-  const courses = z.array(courseSchema).parse(JSON.parse(file));
-
-  courses.forEach(course => {
-    Courses.insert(course)
-  })
-};
-
-export const importOffers = async () => {
-  const file = await openFile('offer.json');
-  if (!file) {
+  if (!offersFile) {
     return console.warn('WARNING: offer.json not found!');
   }
-  const offers = z.array(offerSchema).parse(JSON.parse(file));
+  const courses = z.array(courseSchema).parse(
+    JSON.parse(coursesFile).map((course: any) => ({
+      source: 'courses',
+      ...course,
+    })),
+  );
 
-  offers.forEach(offer => {
-    Offers.insert(offer)
-  })
+  const offers = z.array(courseSchema).parse(
+    JSON.parse(offersFile).map((offer: any) => ({
+      source: 'offer',
+      ...offer,
+    })),
+  );
+
+  courses.forEach((course) => Courses.insert(course));
+  offers.forEach((course) => Courses.insert(course));
 };
