@@ -6,7 +6,16 @@ export const semesterSchema = z.union([
   z.object({
     semesterNumber: z.number(),
     isGap: z.literal(false),
-    courses: z.array(z.number()),
+    courses: z.array(
+      z.object({
+        id: z.number().int(),
+        source: z.union([
+          z.literal('courses'),
+          z.literal('offer'),
+          z.literal('custom'),
+        ]),
+      }),
+    ),
   }),
   z.object({
     isGap: z.literal(true),

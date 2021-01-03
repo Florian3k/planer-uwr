@@ -42,7 +42,11 @@ export const PlanPage = () => {
             ) : (
               <>
                 {semester.courses.length ? (
-                  semester.courses.map((course) => <div>{course}</div>)
+                  semester.courses.map((course) => (
+                    <div>
+                      {course.source} - {course.id}
+                    </div>
+                  ))
                 ) : (
                   <div>Brak przedmiotów</div>
                 )}
