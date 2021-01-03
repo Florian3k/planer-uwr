@@ -26,7 +26,7 @@ export const Login = ({ loggingIn }: LoginProps) => {
         </div>
       )}
       <form
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
 
           if (!username || !password) {
@@ -34,7 +34,7 @@ export const Login = ({ loggingIn }: LoginProps) => {
             return;
           }
 
-          Meteor.loginWithPassword(username, password, err => {
+          Meteor.loginWithPassword(username, password, (err) => {
             if (isMeteorError(err)) {
               if (err.reason === 'User not found') {
                 setError('Nie znaleziono użytkownika');
@@ -54,7 +54,7 @@ export const Login = ({ loggingIn }: LoginProps) => {
             type="text"
             name="username"
             value={username}
-            onChange={e => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </FormGroup>
         <FormGroup label="Hasło">
@@ -63,7 +63,7 @@ export const Login = ({ loggingIn }: LoginProps) => {
             type="password"
             name="password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>
         <Button type="submit" intent="primary" disabled={loggingIn}>

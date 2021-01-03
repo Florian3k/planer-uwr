@@ -33,7 +33,7 @@ export const Register = ({ loggingIn }: RegisterProps) => {
         </div>
       )}
       <form
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
           if (!username || !email || !password || !passwordRepeat) {
             setError('Proszę wypełnić wszystkie pola');
@@ -43,7 +43,7 @@ export const Register = ({ loggingIn }: RegisterProps) => {
             setError('Podane hasła nie zgadzają się');
             return;
           }
-          Accounts.createUser({ username, email, password }, err => {
+          Accounts.createUser({ username, email, password }, (err) => {
             if (isMeteorError(err)) {
               if (err.reason === 'Username already exists.') {
                 setError('Podana nazwa użytkownika jest już zajęta');
@@ -66,7 +66,7 @@ export const Register = ({ loggingIn }: RegisterProps) => {
             type="text"
             name="username"
             value={username}
-            onChange={e => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </FormGroup>
         <FormGroup label="Email">
@@ -75,7 +75,7 @@ export const Register = ({ loggingIn }: RegisterProps) => {
             type="email"
             name="email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </FormGroup>
         <FormGroup label="Hasło">
@@ -84,7 +84,7 @@ export const Register = ({ loggingIn }: RegisterProps) => {
             type="password"
             name="password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>
         <FormGroup label="Powtórz hasło">
@@ -93,7 +93,7 @@ export const Register = ({ loggingIn }: RegisterProps) => {
             type="password"
             name="passwordRepeat"
             value={passwordRepeat}
-            onChange={e => setPasswordRepeat(e.target.value)}
+            onChange={(e) => setPasswordRepeat(e.target.value)}
           />
         </FormGroup>
         <Button type="submit" intent="primary" disabled={loggingIn}>

@@ -35,14 +35,14 @@ export const PlanPage = () => {
       <br />
       <div style={{ display: 'flex' }}>
         <Listing courses={courses} />
-        {plan.semesters.map(semester => (
+        {plan.semesters.map((semester) => (
           <div style={{ minWidth: 200, maxWidth: 250, flexGrow: 1 }}>
             {semester.isGap ? (
               'wolne :)'
             ) : (
               <>
                 {semester.courses.length ? (
-                  semester.courses.map(course => <div>{course}</div>)
+                  semester.courses.map((course) => <div>{course}</div>)
                 ) : (
                   <div>Brak przedmiotów</div>
                 )}

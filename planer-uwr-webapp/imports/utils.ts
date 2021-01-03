@@ -6,7 +6,7 @@ export function isMeteorError(
   return !!(
     error &&
     //@ts-ignore
-    typeof error.reason === "string" &&
+    typeof error.reason === 'string' &&
     //@ts-ignore
     error.errorType === 'Meteor.Error'
   );

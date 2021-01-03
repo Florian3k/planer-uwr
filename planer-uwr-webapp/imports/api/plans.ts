@@ -28,6 +28,6 @@ export const Plans = new Mongo.Collection<Plan>('plans');
 
 if (Meteor.isServer) {
   Meteor.publish('plans', function () {
-    return Plans.find({ ownerId: this.userId });
+    return Plans.find({ ownerId: this.userId! });
   });
 }
