@@ -2,20 +2,22 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import * as z from 'zod';
 
+export const courseEntrySchema = z.object({
+  id: z.number().int(),
+  source: z.union([
+    z.literal('courses'),
+    z.literal('offer'),
+    z.literal('custom'),
+  ]),
+});
+
+export type CourseEntry = z.infer<typeof courseEntrySchema>;
+
 export const semesterSchema = z.union([
   z.object({
     semesterNumber: z.number(),
     isGap: z.literal(false),
-    courses: z.array(
-      z.object({
-        id: z.number().int(),
-        source: z.union([
-          z.literal('courses'),
-          z.literal('offer'),
-          z.literal('custom'),
-        ]),
-      }),
-    ),
+    courses: z.array(courseEntrySchema),
   }),
   z.object({
     isGap: z.literal(true),

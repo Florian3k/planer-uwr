@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { Courses } from '/imports/api/courses';
 import { Plans } from '/imports/api/plans';
 import { Listing } from './Listing';
+import { CourseWrapper } from './CourseWrapper';
 
 export const PlanPage = () => {
   const { planId } = useParams();
@@ -43,9 +44,7 @@ export const PlanPage = () => {
               <>
                 {semester.courses.length ? (
                   semester.courses.map((course) => (
-                    <div>
-                      {course.source} - {course.id}
-                    </div>
+                    <CourseWrapper course={course} />
                   ))
                 ) : (
                   <div>Brak przedmiotów</div>
