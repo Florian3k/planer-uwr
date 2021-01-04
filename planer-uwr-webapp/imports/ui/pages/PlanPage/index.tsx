@@ -1,21 +1,25 @@
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { Courses } from '/imports/api/courses';
-import { Plans } from '/imports/api/plans';
+import { moveCourse, moveCourseImpl, Plan, Plans } from '/imports/api/plans';
 import { Listing } from './Listing';
 import { CourseWrapper } from './CourseWrapper';
 
 export const PlanPage = () => {
   const { planId } = useParams();
 
+  const [localPlan, setLocalPlan] = useState<Plan | undefined>(undefined);
+
   const [plan, planReady] = useTracker(() => {
     const sub = Meteor.subscribe('plans');
-    return [Plans.findOne(planId), sub.ready()];
-  });
+    const plan = Plans.findOne(planId);
+    setLocalPlan(plan);
+    return [plan, sub.ready()];
+  }, []);
 
   const courses = useTracker(() => {
     Meteor.subscribe('courses');
@@ -26,23 +30,42 @@ export const PlanPage = () => {
     return <div>Wczytywanie planu...</div>;
   }
 
-  if (!plan) {
+  if (!localPlan || !plan) {
+    console.log({ localPlan, plan });
     return <div>Nie znaleziono planu :(</div>;
   }
 
   return (
     <div>
-      <div>Nazwa: {plan.name}</div>
-      <div>Liczba semestrów: {plan.semesters.length}</div>
+      <div>Nazwa: {localPlan.name}</div>
+      <div>Liczba semestrów: {localPlan.semesters.length}</div>
       <br />
       <DragDropContext
         onDragEnd={(result, provided) => {
+          if (!result.destination) {
+            return;
+          }
           console.log(result, provided);
+          const fromColumn = parseInt(result.source.droppableId);
+          const toColumn = parseInt(result.destination.droppableId);
+          const fromIndex = result.source.index;
+          const toIndex = result.destination.index;
+          const newPlan = moveCourseImpl(plan, fromColumn, toColumn, fromIndex, toIndex);
+          if (newPlan) {
+            setLocalPlan(newPlan);
+          }
+          moveCourse.call({
+            planId,
+            fromColumn,
+            toColumn,
+            fromIndex,
+            toIndex,
+          });
         }}
       >
         <div style={{ display: 'flex' }}>
           <Listing courses={courses} />
-          {plan.semesters.map((semester, semesterIndex) => (
+          {localPlan.semesters.map((semester, semesterIndex) => (
             <div
               style={{ minWidth: 300, maxWidth: 350, flexGrow: 1 }}
               key={semesterIndex.toString()}
