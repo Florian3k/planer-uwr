@@ -15,7 +15,7 @@ export const UserPlans = () => {
     <Card elevation={Elevation.TWO}>
       <h2 style={{ textAlign: 'center', marginTop: 0 }}>Twoje plany</h2>
       {plans.map((plan) => (
-        <Link to={`/plan/'${plan._id}`} key={plan._id}>
+        <Link to={`/plan/${plan._id}`} key={plan._id}>
           <Card>
             <h3>{plan.name}</h3>
           </Card>
