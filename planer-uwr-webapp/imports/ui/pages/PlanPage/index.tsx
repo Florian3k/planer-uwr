@@ -17,7 +17,9 @@ export const PlanPage = () => {
   const [plan, planReady] = useTracker(() => {
     const sub = Meteor.subscribe('plans');
     const plan = Plans.findOne(planId);
-    setLocalPlan(plan);
+    if (plan) {
+      setLocalPlan(plan);
+    }
     return [plan, sub.ready()];
   }, []);
 
