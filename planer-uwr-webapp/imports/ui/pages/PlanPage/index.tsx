@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
-import { Courses } from '/imports/api/courses';
+import { Courses, courseSchema } from '/imports/api/courses';
 import { moveCourse, moveCourseImpl, Plan, Plans } from '/imports/api/plans';
 import { Listing } from './Listing';
 import { CourseWrapper } from './CourseWrapper';
@@ -47,22 +47,34 @@ export const PlanPage = () => {
           if (!result.destination) {
             return;
           }
-          console.log(result, provided);
-          const fromColumn = parseInt(result.source.droppableId);
-          const toColumn = parseInt(result.destination.droppableId);
-          const fromIndex = result.source.index;
-          const toIndex = result.destination.index;
-          const newPlan = moveCourseImpl(plan, fromColumn, toColumn, fromIndex, toIndex);
-          if (newPlan) {
-            setLocalPlan(newPlan);
+          if (result.source.droppableId === 'listing') {
+            console.log('add course!');
+            return;
+          } else {
+            console.log(result, provided);
+            const fromColumn = parseInt(result.source.droppableId);
+            const toColumn = parseInt(result.destination.droppableId);
+            const fromIndex = result.source.index;
+            const toIndex = result.destination.index;
+
+            const newPlan = moveCourseImpl(
+              plan,
+              fromColumn,
+              toColumn,
+              fromIndex,
+              toIndex,
+            );
+            if (newPlan) {
+              setLocalPlan(newPlan);
+            }
+            moveCourse.call({
+              planId,
+              fromColumn,
+              toColumn,
+              fromIndex,
+              toIndex,
+            });
           }
-          moveCourse.call({
-            planId,
-            fromColumn,
-            toColumn,
-            fromIndex,
-            toIndex,
-          });
         }}
       >
         <div style={{ display: 'flex' }}>
