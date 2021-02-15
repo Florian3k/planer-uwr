@@ -4,8 +4,15 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
-import { Courses, courseSchema } from '/imports/api/courses';
-import { moveCourse, moveCourseImpl, Plan, Plans } from '/imports/api/plans';
+import { Courses } from '/imports/api/courses';
+import {
+  addCourse,
+  addCourseImpl,
+  moveCourse,
+  moveCourseImpl,
+  Plan,
+  Plans,
+} from '/imports/api/plans';
 import { Listing } from './Listing';
 import { CourseWrapper } from './CourseWrapper';
 
@@ -23,10 +30,11 @@ export const PlanPage = () => {
     return [plan, sub.ready()];
   }, []);
 
+  const [filter, setFilter] = useState('');
   const courses = useTracker(() => {
     Meteor.subscribe('courses');
-    return Courses.find().fetch();
-  });
+    return Courses.find({ name: { $regex: filter } }).fetch();
+  }, [filter]);
 
   if (!planReady) {
     return <div>Wczytywanie planu...</div>;
@@ -41,21 +49,36 @@ export const PlanPage = () => {
     <div>
       <div>Nazwa: {localPlan.name}</div>
       <div>Liczba semestrów: {localPlan.semesters.length}</div>
+      <input
+        className="bp3-input"
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+        placeholder="Filtruj przedmioty"
+      />
       <br />
       <DragDropContext
         onDragEnd={(result, provided) => {
           if (!result.destination) {
             return;
           }
+          const toColumn = parseInt(result.destination.droppableId);
+          const toIndex = result.destination.index;
           if (result.source.droppableId === 'listing') {
-            console.log('add course!');
-            return;
+            const course = Courses.findOne(result.draggableId.split('-')[1])!;
+            const newPlan = addCourseImpl(plan, course, toColumn, toIndex);
+            if (newPlan) {
+              setLocalPlan(newPlan);
+            }
+            addCourse.call({
+              planId,
+              courseId: course._id!,
+              toColumn,
+              toIndex,
+            });
           } else {
             console.log(result, provided);
             const fromColumn = parseInt(result.source.droppableId);
-            const toColumn = parseInt(result.destination.droppableId);
             const fromIndex = result.source.index;
-            const toIndex = result.destination.index;
 
             const newPlan = moveCourseImpl(
               plan,

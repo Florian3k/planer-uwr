@@ -3,6 +3,7 @@ import { Mongo } from 'meteor/mongo';
 import * as z from 'zod';
 
 import { ValidatedMethod } from '../method';
+import { Course, Courses } from './courses';
 
 export const courseEntrySchema = z.object({
   id: z.number().int(),
@@ -72,6 +73,32 @@ export const moveCourse = new ValidatedMethod({
   },
 });
 
+export const addCourse = new ValidatedMethod({
+  name: 'Plan.addCourse',
+  schema: z.object({
+    planId: z.string(),
+    courseId: z.string(),
+    toColumn: indexSchema,
+    toIndex: indexSchema,
+  }),
+  run({ planId, courseId, toColumn, toIndex }) {
+    const plan = Plans.findOne({
+      _id: planId,
+      ownerId: this.userId!,
+    });
+
+    const course = Courses.findOne(courseId);
+
+    if (!plan || !course) {
+      return;
+    }
+
+    if (addCourseImpl(plan, course, toColumn, toIndex)) {
+      Plans.update({ _id: planId }, plan);
+    }
+  },
+});
+
 export const moveCourseImpl = (
   plan: Plan,
   fromColumn: number,
@@ -97,13 +124,31 @@ export const moveCourseImpl = (
   }
 
   if (fromColumn === toColumn) {
-    const temp = to.courses[toIndex]
-    to.courses[toIndex] = to.courses[fromIndex]
+    const temp = to.courses[toIndex];
+    to.courses[toIndex] = to.courses[fromIndex];
     to.courses[fromIndex] = temp;
     return plan;
   }
 
   to.courses.splice(toIndex, 0, from.courses.splice(fromIndex, 1)[0]);
+
+  return plan;
+};
+
+export const addCourseImpl = (
+  plan: Plan,
+  course: Course,
+  toColumn: number,
+  toIndex: number,
+) => {
+  const to = plan.semesters.find(
+    (sem) => !sem.isGap && sem.semesterNumber === toColumn,
+  );
+  if (!to || to.isGap || toIndex > to.courses.length) {
+    return;
+  }
+
+  to.courses.splice(toIndex, 0, { id: course.id, source: course.source });
 
   return plan;
 };
