@@ -163,7 +163,7 @@ export const PlanPage = () => {
                           <Draggable
                             draggableId={`${semester.semesterNumber}-${courseIndex}-${course.id}`}
                             index={courseIndex}
-                            key={`${course.id}${semester.semesterNumber}`}
+                            key={`${semester.semesterNumber}-${courseIndex}-${course.id}`}
                           >
                             {(provided) => (
                               <div
