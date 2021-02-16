@@ -12,6 +12,8 @@ import {
   moveCourseImpl,
   Plan,
   Plans,
+  removeCourse,
+  removeCourseImpl,
 } from '/imports/api/plans';
 import { Listing } from './Listing';
 import { CourseWrapper } from './CourseWrapper';
@@ -104,7 +106,6 @@ export const PlanPage = () => {
           }
         }}
         onDragEnd={(result) => {
-          console.log('drag end!');
           setShowTrash(false);
           if (!result.destination) {
             return;
@@ -127,8 +128,12 @@ export const PlanPage = () => {
           const fromColumn = parseInt(result.source.droppableId);
           const fromIndex = result.source.index;
           if (result.destination.droppableId === 'trash') {
-            console.log('TODO: remove subject');
-            return;
+            const newPlan = removeCourseImpl(plan, fromColumn, fromIndex);
+            console.log(newPlan);
+            if (newPlan) {
+              setLocalPlan(newPlan);
+            }
+            return removeCourse.call({ planId, fromColumn, fromIndex });
           }
 
           const newPlan = moveCourseImpl(
@@ -158,16 +163,16 @@ export const PlanPage = () => {
                   style={{
                     position: 'absolute',
                     background: 'rgba(255, 0, 0, 0.5)',
-                    width: 100,
-                    height: 100,
+                    width: 200,
+                    height: 200,
                     fontSize: 40,
-                    display: showTrash ? 'block' : 'none',
+                    visibility: showTrash ? 'unset' : 'hidden',
                   }}
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
                   KOSZ
-                  <div style={{ display: 'none' }}>{provided.placeholder}</div>
+                  <div>{provided.placeholder}</div>
                 </div>
               )}
             </Droppable>

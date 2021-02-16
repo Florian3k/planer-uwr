@@ -99,6 +99,29 @@ export const addCourse = new ValidatedMethod({
   },
 });
 
+export const removeCourse = new ValidatedMethod({
+  name: 'Plan.removeCourse',
+  schema: z.object({
+    planId: z.string(),
+    fromColumn: indexSchema,
+    fromIndex: indexSchema,
+  }),
+  run({ planId, fromColumn, fromIndex }) {
+    const plan = Plans.findOne({
+      _id: planId,
+      ownerId: this.userId!,
+    });
+
+    if (!plan) {
+      return;
+    }
+
+    if (removeCourseImpl(plan, fromColumn, fromIndex)) {
+      Plans.update({ _id: planId }, plan);
+    }
+  },
+});
+
 export const moveCourseImpl = (
   plan: Plan,
   fromColumn: number,
@@ -149,6 +172,22 @@ export const addCourseImpl = (
   }
 
   to.courses.splice(toIndex, 0, { id: course.id, source: course.source });
+
+  return plan;
+};
+
+export const removeCourseImpl = (
+  plan: Plan,
+  fromColumn: number,
+  fromIndex: number,
+) => {
+  const semester = plan.semesters[fromColumn - 1];
+
+  if (!semester || semester.isGap) {
+    return;
+  }
+
+  semester.courses.splice(fromIndex, 1);
 
   return plan;
 };
