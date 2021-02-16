@@ -54,6 +54,7 @@ export const PlanPage = () => {
     return [plan, sub.ready()];
   }, []);
 
+  const [showTrash, setShowTrash] = useState(false);
   const [filter, setFilter] = useState('');
   const [sourceSemester, setSourceSemester] = useState(semestersNames[0]);
 
@@ -97,7 +98,14 @@ export const PlanPage = () => {
       />
       <br />
       <DragDropContext
-        onDragEnd={(result, provided) => {
+        onDragStart={(initial) => {
+          if (initial.source.droppableId !== 'listing') {
+            setShowTrash(true);
+          }
+        }}
+        onDragEnd={(result) => {
+          console.log('drag end!');
+          setShowTrash(false);
           if (!result.destination) {
             return;
           }
@@ -109,39 +117,64 @@ export const PlanPage = () => {
             if (newPlan) {
               setLocalPlan(newPlan);
             }
-            addCourse.call({
+            return addCourse.call({
               planId,
               courseId: course._id!,
               toColumn,
               toIndex,
             });
-          } else {
-            console.log(result, provided);
-            const fromColumn = parseInt(result.source.droppableId);
-            const fromIndex = result.source.index;
-
-            const newPlan = moveCourseImpl(
-              plan,
-              fromColumn,
-              toColumn,
-              fromIndex,
-              toIndex,
-            );
-            if (newPlan) {
-              setLocalPlan(newPlan);
-            }
-            moveCourse.call({
-              planId,
-              fromColumn,
-              toColumn,
-              fromIndex,
-              toIndex,
-            });
           }
+          const fromColumn = parseInt(result.source.droppableId);
+          const fromIndex = result.source.index;
+          if (result.destination.droppableId === 'trash') {
+            console.log('TODO: remove subject');
+            return;
+          }
+
+          const newPlan = moveCourseImpl(
+            plan,
+            fromColumn,
+            toColumn,
+            fromIndex,
+            toIndex,
+          );
+          if (newPlan) {
+            setLocalPlan(newPlan);
+          }
+          moveCourse.call({
+            planId,
+            fromColumn,
+            toColumn,
+            fromIndex,
+            toIndex,
+          });
         }}
       >
         <div style={{ display: 'flex' }}>
-          <Listing courses={courses} />
+          <div style={{ position: 'relative' }}>
+            <Droppable droppableId="trash">
+              {(provided) => (
+                <div
+                  style={{
+                    position: 'absolute',
+                    background: 'rgba(255, 0, 0, 0.5)',
+                    width: 100,
+                    height: 100,
+                    fontSize: 40,
+                    display: showTrash ? 'block' : 'none',
+                  }}
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  KOSZ
+                  <div style={{ display: 'none' }}>{provided.placeholder}</div>
+                </div>
+              )}
+            </Droppable>
+            <div style={{ zIndex: 15 }}>
+              <Listing courses={courses} />
+            </div>
+          </div>
           {localPlan.semesters.map((semester, semesterIndex) => (
             <div
               style={{ minWidth: 300, maxWidth: 350, flexGrow: 1 }}
