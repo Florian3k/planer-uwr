@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
-import { Courses } from '/imports/api/courses';
+import { Course, Courses } from '/imports/api/courses';
 import {
   addCourse,
   addCourseImpl,
@@ -15,6 +15,30 @@ import {
 } from '/imports/api/plans';
 import { Listing } from './Listing';
 import { CourseWrapper } from './CourseWrapper';
+import { Mongo } from 'meteor/mongo';
+import { HTMLSelect } from '@blueprintjs/core';
+
+const semestersNames = [
+  'Oferta',
+  '2020/21 letni',
+  '2020/21 zimowy',
+  '2019/20 letni',
+  '2019/20 zimowy',
+  '2018/19 letni',
+  '2018/19 zimowy',
+  '2017/18 letni',
+  '2017/18 zimowy',
+  '2016/17 letni',
+  '2016/17 zimowy',
+  '2015/16 letni',
+  '2015/16 zimowy',
+  '2014/15 letni',
+  '2014/15 zimowy',
+  '2013/14 letni',
+  '2013/14 zimowy',
+  '2012/13 letni',
+  '2012/13 zimowy',
+];
 
 export const PlanPage = () => {
   const { planId } = useParams();
@@ -31,10 +55,21 @@ export const PlanPage = () => {
   }, []);
 
   const [filter, setFilter] = useState('');
+  const [sourceSemester, setSourceSemester] = useState(semestersNames[0]);
+
   const courses = useTracker(() => {
     Meteor.subscribe('courses');
-    return Courses.find({ name: { $regex: filter } }).fetch();
-  }, [filter]);
+    const selector: Mongo.Selector<Course> = {
+      name: { $regex: filter, $options: 'i' },
+    };
+    if (sourceSemester !== semestersNames[0]) {
+      selector.semester = sourceSemester;
+      selector.source = 'courses';
+    } else {
+      selector.source = 'offer';
+    }
+    return Courses.find(selector).fetch();
+  }, [filter, sourceSemester]);
 
   if (!planReady) {
     return <div>Wczytywanie planu...</div>;
@@ -54,6 +89,11 @@ export const PlanPage = () => {
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
         placeholder="Filtruj przedmioty"
+      />
+      <HTMLSelect
+        value={sourceSemester}
+        options={semestersNames}
+        onChange={(e) => setSourceSemester(e.target.value)}
       />
       <br />
       <DragDropContext
