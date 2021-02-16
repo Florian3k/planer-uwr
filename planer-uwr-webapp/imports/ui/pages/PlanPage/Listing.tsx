@@ -10,13 +10,12 @@ export const Listing = ({ courses }: ListingProps) => {
   return (
     <div style={{ minWidth: 300, maxWidth: 300, flexGrow: 2 }}>
       <Droppable droppableId="listing" isDropDisabled>
-        {(provided, stateSnapshot) => (
+        {(provided) => (
           <div
             style={{ border: '1px solid green' }}
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            <pre>{JSON.stringify(stateSnapshot, null, 2)}</pre>
             {courses.map((course, courseIndex) => (
               <Draggable
                 draggableId={`listing-${course._id}`}

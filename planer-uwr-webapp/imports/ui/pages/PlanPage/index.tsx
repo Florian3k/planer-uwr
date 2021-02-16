@@ -189,13 +189,12 @@ export const PlanPage = () => {
                 'wolne :)'
               ) : (
                 <Droppable droppableId={semester.semesterNumber.toString()}>
-                  {(provided, stateSnapshot) => (
+                  {(provided) => (
                     <div
                       style={{ minHeight: 600, border: '1px solid blue' }}
                       ref={provided.innerRef}
                       {...provided.droppableProps}
                     >
-                      <pre>{JSON.stringify(stateSnapshot, null, 2)}</pre>
                       {semester.courses.length ? (
                         semester.courses.map((course, courseIndex) => (
                           <Draggable
