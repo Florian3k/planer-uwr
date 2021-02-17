@@ -16,7 +16,17 @@ export const CourseWrapper = ({
 }: CourseWrapperProps) => {
   const course = useTracker(() => {
     return Courses.findOne({ id });
-  }, [id])!;
+  }, [id]);
+
+  if (!course) {
+    return (
+      <div
+        ref={provided?.innerRef}
+        {...provided?.draggableProps}
+        {...provided?.dragHandleProps}
+      ></div>
+    );
+  }
 
   const source = course.source === 'courses' ? course.semester : 'Oferta';
 

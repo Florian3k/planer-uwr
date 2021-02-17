@@ -53,8 +53,8 @@ export const PlanPage = () => {
     if (plan) {
       setLocalPlan(plan);
     }
-    return [plan, sub.ready()];
-  }, []);
+    return [plan, sub.ready()] as const;
+  }, []) ?? [undefined, false];
 
   const [showTrash, setShowTrash] = useState(false);
   const [filter, setFilter] = useState('');
