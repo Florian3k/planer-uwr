@@ -71,7 +71,7 @@ export const PlanPage = () => {
     } else {
       selector.source = 'offer';
     }
-    return Courses.find(selector).fetch();
+    return Courses.find(selector, { limit: 20 }).fetch();
   }, [filter, sourceSemester]);
 
   if (!planReady) {
