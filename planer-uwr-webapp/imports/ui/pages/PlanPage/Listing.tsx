@@ -23,8 +23,11 @@ export const Listing = ({ courses }: ListingProps) => {
                 index={courseIndex}
                 key={`listing-${course._id}`}
               >
-                {(provided) => (
-                  <CourseWrapper course={course} provided={provided} />
+                {(provided, snapshot) => (
+                  <>
+                    <CourseWrapper course={course} provided={provided} />
+                    {snapshot.isDragging && <CourseWrapper course={course} />}
+                  </>
                 )}
               </Draggable>
             ))}

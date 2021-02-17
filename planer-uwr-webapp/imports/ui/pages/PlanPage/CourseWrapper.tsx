@@ -7,7 +7,7 @@ import { shortNameByType } from '../../../utils';
 
 interface CourseWrapperProps {
   course: CourseEntry;
-  provided: DraggableProvided;
+  provided?: DraggableProvided;
 }
 
 export const CourseWrapper = ({
@@ -22,9 +22,10 @@ export const CourseWrapper = ({
 
   return (
     <div
-      ref={provided.innerRef}
-      {...provided.draggableProps}
-      {...provided.dragHandleProps}
+      ref={provided?.innerRef}
+      {...provided?.draggableProps}
+      {...provided?.dragHandleProps}
+      className={`course-wrapper ${provided ? '' : 'course-wrapper-clone'}`}
     >
       <div
         style={{
