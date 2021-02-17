@@ -24,13 +24,7 @@ export const Listing = ({ courses }: ListingProps) => {
                 key={`listing-${course._id}`}
               >
                 {(provided) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                  >
-                    <CourseWrapper course={course} />
-                  </div>
+                  <CourseWrapper course={course} provided={provided} />
                 )}
               </Draggable>
             ))}
