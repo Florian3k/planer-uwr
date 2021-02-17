@@ -60,8 +60,8 @@ export const PlanPage = () => {
   const [filter, setFilter] = useState('');
   const [sourceSemester, setSourceSemester] = useState(semestersNames[0]);
 
-  const courses = useTracker(() => {
-    Meteor.subscribe('courses');
+  const [courses, coursesReady] = useTracker(() => {
+    const sub = Meteor.subscribe('courses');
     const selector: Mongo.Selector<Course> = {
       name: { $regex: filter, $options: 'i' },
     };
@@ -71,10 +71,10 @@ export const PlanPage = () => {
     } else {
       selector.source = 'offer';
     }
-    return Courses.find(selector, { limit: 20 }).fetch();
-  }, [filter, sourceSemester]);
+    return [Courses.find(selector, { limit: 20 }).fetch(), sub.ready()];
+  }, [filter, sourceSemester]) ?? [[], false];
 
-  if (!planReady) {
+  if (!planReady || !coursesReady) {
     return <div>Wczytywanie planu...</div>;
   }
 

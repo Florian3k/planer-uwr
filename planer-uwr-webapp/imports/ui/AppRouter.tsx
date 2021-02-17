@@ -7,8 +7,10 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 
 export const AppRouter = () => {
-  const user = useTracker(() => Meteor.user());
-  const loggingIn = useTracker(() => Meteor.loggingIn());
+  const [user, loggingIn] = useTracker(() => [
+    Meteor.user(),
+    Meteor.loggingIn(),
+  ]);
 
   return (
     <Routes>
