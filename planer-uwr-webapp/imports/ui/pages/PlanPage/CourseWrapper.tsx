@@ -10,7 +10,9 @@ interface CourseWrapperProps {
 export const CourseWrapper = ({ course: { id } }: CourseWrapperProps) => {
   const course = useTracker(() => {
     return Courses.findOne({ id });
-  }, [id]);
+  }, [id])!;
+
+  const source = course.source === 'courses' ? course.semester : 'Oferta';
 
   return (
     <div
@@ -23,7 +25,10 @@ export const CourseWrapper = ({ course: { id } }: CourseWrapperProps) => {
         padding: 4,
       }}
     >
-      {course?.name}
+      <div>{course.name}</div>
+      <div>
+        {course.ects} ECTS - {source}
+      </div>
     </div>
   );
 };

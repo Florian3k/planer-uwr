@@ -79,7 +79,6 @@ export const PlanPage = () => {
   }
 
   if (!localPlan || !plan) {
-    console.log({ localPlan, plan });
     return <div>Nie znaleziono planu :(</div>;
   }
 
@@ -129,7 +128,6 @@ export const PlanPage = () => {
           const fromIndex = result.source.index;
           if (result.destination.droppableId === 'trash') {
             const newPlan = removeCourseImpl(plan, fromColumn, fromIndex);
-            console.log(newPlan);
             if (newPlan) {
               setLocalPlan(newPlan);
             }
@@ -157,7 +155,7 @@ export const PlanPage = () => {
       >
         <div style={{ display: 'flex' }}>
           <div style={{ position: 'relative' }}>
-            <Droppable droppableId="trash">
+            <Droppable droppableId="trash" isDropDisabled={!showTrash}>
               {(provided) => (
                 <div
                   style={{

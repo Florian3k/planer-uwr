@@ -1,5 +1,6 @@
 import React from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { CourseWrapper } from './CourseWrapper';
 
 import { Course } from '/imports/api/courses';
 
@@ -28,18 +29,7 @@ export const Listing = ({ courses }: ListingProps) => {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                   >
-                    <div
-                      style={{
-                        minWidth: 200,
-                        maxWidth: 300,
-                        flexGrow: 2,
-                        border: '1px solid yellow',
-                        margin: 4,
-                        padding: 4,
-                      }}
-                    >
-                      {course.name} - {course.semester}
-                    </div>
+                    <CourseWrapper course={course} />
                   </div>
                 )}
               </Draggable>
