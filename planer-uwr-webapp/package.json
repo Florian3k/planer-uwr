@@ -14,6 +14,7 @@
     "history": "^5.0.0",
     "meteor-node-stubs": "^1.0.1",
     "react": "^17.0.0",
+    "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^17.0.0",
     "react-router-dom": "^6.0.0-beta.0",
     "zod": "^2.0.0-beta.29"
@@ -22,6 +23,7 @@
     "@types/meteor": "^1.4.64",
     "@types/mocha": "^8.2.0",
     "@types/react": "^17.0.0",
+    "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-dom": "^17.0.0",
     "typescript": "^4.1.3"
   },
