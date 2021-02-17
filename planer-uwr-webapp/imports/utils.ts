@@ -11,3 +11,22 @@ export function isMeteorError(
     error.errorType === 'Meteor.Error'
   );
 }
+
+export const shortNameByType: Record<number, string | undefined> = {
+  '5': 'I1',
+  '7': 'I.inż',
+  '8': 'O1',
+  '9': 'O2',
+  '10': 'O3',
+  '13': 'P',
+  '14': 'S',
+  '15': 'N',
+  '35': 'Inny',
+  '36': 'K1',
+  '37': 'K2',
+  '38': 'I2.T',
+  '39': 'I2.Z',
+  '40': 'K.inż',
+  '42': 'HS',
+  '43': 'M',
+};

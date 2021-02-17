@@ -3,6 +3,7 @@ import React from 'react';
 import { DraggableProvided } from 'react-beautiful-dnd';
 import { Courses } from '../../../api/courses';
 import { CourseEntry } from '../../../api/plans';
+import { shortNameByType } from '../../../utils';
 
 interface CourseWrapperProps {
   course: CourseEntry;
@@ -37,7 +38,7 @@ export const CourseWrapper = ({
         <div style={{ padding: 4, border: '1px solid red' }}>
           <div>{course.name}</div>
           <div>
-            {course.ects} ECTS - {source}
+            {course.ects} ECTS - {source} - {shortNameByType[course.courseType]}
           </div>
         </div>
       </div>
