@@ -1,8 +1,11 @@
+import { HTMLSelect } from '@blueprintjs/core';
 import { Meteor } from 'meteor/meteor';
+import { Mongo } from 'meteor/mongo';
 import { useTracker } from 'meteor/react-meteor-data';
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { useParams } from 'react-router-dom';
+import { useDebounce } from 'use-debounce';
 
 import { Course, Courses } from '/imports/api/courses';
 import {
@@ -15,10 +18,8 @@ import {
   removeCourse,
   removeCourseImpl,
 } from '/imports/api/plans';
-import { Listing } from './Listing';
 import { CourseWrapper } from './CourseWrapper';
-import { Mongo } from 'meteor/mongo';
-import { HTMLSelect } from '@blueprintjs/core';
+import { Listing } from './Listing';
 
 const semestersNames = [
   'Oferta',
@@ -58,12 +59,16 @@ export const PlanPage = () => {
 
   const [showTrash, setShowTrash] = useState(false);
   const [filter, setFilter] = useState('');
+  const [filterDebounced] = useDebounce(filter, 100);
   const [sourceSemester, setSourceSemester] = useState(semestersNames[0]);
 
-  const [courses, coursesReady] = useTracker(() => {
-    const sub = Meteor.subscribe('courses');
+  const coursesReady = useTracker(() => {
+    return Meteor.subscribe('courses').ready();
+  }, []);
+
+  const courses = useTracker(() => {
     const selector: Mongo.Selector<Course> = {
-      name: { $regex: filter, $options: 'i' },
+      name: { $regex: filterDebounced, $options: 'i' },
     };
     if (sourceSemester !== semestersNames[0]) {
       selector.semester = sourceSemester;
@@ -71,8 +76,8 @@ export const PlanPage = () => {
     } else {
       selector.source = 'offer';
     }
-    return [Courses.find(selector, { limit: 20 }).fetch(), sub.ready()];
-  }, [filter, sourceSemester]) ?? [[], false];
+    return Courses.find(selector, { limit: 20 }).fetch();
+  }, [filterDebounced, sourceSemester]);
 
   if (!planReady || !coursesReady) {
     return <div>Wczytywanie planu...</div>;
