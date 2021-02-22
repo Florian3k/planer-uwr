@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { useTracker } from 'meteor/react-meteor-data';
 import React, { useState } from 'react';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
 import { useParams } from 'react-router-dom';
 import { useDebounce } from 'use-debounce';
 
@@ -18,8 +18,8 @@ import {
   removeCourse,
   removeCourseImpl,
 } from '/imports/api/plans';
-import { CourseWrapper } from './CourseWrapper';
-import { Listing } from './Listing';
+import { ListingWrapper } from './Listing/ListingWrapper';
+import { SemesterWrapper } from './Semester/SemesterWrapper';
 
 const semestersNames = [
   'Oferta',
@@ -92,8 +92,6 @@ export const PlanPage = () => {
 
   return (
     <div>
-      <div>Nazwa: {localPlan.name}</div>
-      <div>Liczba semestrów: {localPlan.semesters.length}</div>
       <input
         className="bp3-input"
         value={filter}
@@ -162,69 +160,9 @@ export const PlanPage = () => {
         }}
       >
         <div style={{ display: 'flex' }}>
-          <div style={{ position: 'relative' }}>
-            <Droppable droppableId="trash" isDropDisabled={!showTrash}>
-              {(provided) => (
-                <div
-                  style={{
-                    position: 'absolute',
-                    background: 'rgba(255, 0, 0, 0.5)',
-                    width: 200,
-                    height: 200,
-                    fontSize: 40,
-                    visibility: showTrash ? 'unset' : 'hidden',
-                  }}
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                >
-                  KOSZ
-                  <div>{provided.placeholder}</div>
-                </div>
-              )}
-            </Droppable>
-            <div style={{ zIndex: 15 }}>
-              <Listing courses={courses} />
-            </div>
-          </div>
-          {localPlan.semesters.map((semester, semesterIndex) => (
-            <div
-              style={{ minWidth: 300, maxWidth: 350, flexGrow: 1 }}
-              key={semesterIndex.toString()}
-            >
-              {semester.isGap ? (
-                'wolne :)'
-              ) : (
-                <Droppable droppableId={semester.semesterNumber.toString()}>
-                  {(provided) => (
-                    <div
-                      style={{ minHeight: 600, border: '1px solid blue' }}
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                    >
-                      {semester.courses.length ? (
-                        semester.courses.map((course, courseIndex) => (
-                          <Draggable
-                            draggableId={`${semester.semesterNumber}-${courseIndex}-${course.id}`}
-                            index={courseIndex}
-                            key={`${semester.semesterNumber}-${courseIndex}-${course.id}`}
-                          >
-                            {(provided) => (
-                              <CourseWrapper
-                                course={course}
-                                provided={provided}
-                              />
-                            )}
-                          </Draggable>
-                        ))
-                      ) : (
-                        <div>Brak przedmiotów</div>
-                      )}
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-              )}
-            </div>
+          <ListingWrapper courses={courses} showTrash={showTrash} />
+          {localPlan.semesters.map((semester, index) => (
+            <SemesterWrapper semester={semester} key={index} />
           ))}
         </div>
       </DragDropContext>

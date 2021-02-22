@@ -27,6 +27,8 @@ export const semesterSchema = z.union([
   }),
 ]);
 
+export type Semester = z.infer<typeof semesterSchema>;
+
 export const planSchema = z.object({
   name: z.string(),
   ownerId: z.string(),
