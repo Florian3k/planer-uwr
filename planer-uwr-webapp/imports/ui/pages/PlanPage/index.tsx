@@ -17,6 +17,7 @@ import {
 } from '/imports/api/plans';
 import { ListingWrapper } from './Listing/ListingWrapper';
 import { SemesterWrapper } from './Semester/SemesterWrapper';
+import { SemestersWrapper } from './Semester/SemestersWrapper';
 
 export const PlanPage = () => {
   const { planId } = useParams();
@@ -36,6 +37,14 @@ export const PlanPage = () => {
 
   const coursesReady = useTracker(() => {
     return Meteor.subscribe('courses').ready();
+  }, []);
+
+  const allCourses = useTracker(() => {
+    return Object.fromEntries(
+      Courses.find()
+        .fetch()
+        .map((course) => [course.id, course]),
+    );
   }, []);
 
   if (!planReady || !coursesReady) {
@@ -123,9 +132,10 @@ export const PlanPage = () => {
             gridTemplateRows: 'auto 1fr',
           }}
         >
-          {localPlan.semesters.map((semester, index) => (
-            <SemesterWrapper semester={semester} key={index} />
-          ))}
+          <SemestersWrapper
+            courses={allCourses}
+            semesters={localPlan.semesters}
+          />
         </div>
         <div
           style={{ border: '1px solid deeppink', gridColumn: '1 / span 1000' }}
