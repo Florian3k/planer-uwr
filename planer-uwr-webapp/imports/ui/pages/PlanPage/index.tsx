@@ -1,13 +1,10 @@
-import { HTMLSelect } from '@blueprintjs/core';
 import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
 import { useTracker } from 'meteor/react-meteor-data';
 import React, { useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useParams } from 'react-router-dom';
-import { useDebounce } from 'use-debounce';
 
-import { Course, Courses } from '/imports/api/courses';
+import { Courses } from '/imports/api/courses';
 import {
   addCourse,
   addCourseImpl,
@@ -20,28 +17,6 @@ import {
 } from '/imports/api/plans';
 import { ListingWrapper } from './Listing/ListingWrapper';
 import { SemesterWrapper } from './Semester/SemesterWrapper';
-
-const semestersNames = [
-  'Oferta',
-  '2020/21 letni',
-  '2020/21 zimowy',
-  '2019/20 letni',
-  '2019/20 zimowy',
-  '2018/19 letni',
-  '2018/19 zimowy',
-  '2017/18 letni',
-  '2017/18 zimowy',
-  '2016/17 letni',
-  '2016/17 zimowy',
-  '2015/16 letni',
-  '2015/16 zimowy',
-  '2014/15 letni',
-  '2014/15 zimowy',
-  '2013/14 letni',
-  '2013/14 zimowy',
-  '2012/13 letni',
-  '2012/13 zimowy',
-];
 
 export const PlanPage = () => {
   const { planId } = useParams();
@@ -58,29 +33,10 @@ export const PlanPage = () => {
   }, []) ?? [undefined, false];
 
   const [showTrash, setShowTrash] = useState(false);
-  const [filter, setFilter] = useState('');
-  const [filterDebounced] = useDebounce(filter, 100);
-  const [sourceSemester, setSourceSemester] = useState(semestersNames[0]);
 
   const coursesReady = useTracker(() => {
     return Meteor.subscribe('courses').ready();
   }, []);
-
-  const courses = useTracker(() => {
-    const selector: Mongo.Selector<Course> = {
-      name: {
-        $regex: filterDebounced.replace(/[\\^$*+?.()|[\]{}]/g, '\\$&'),
-        $options: 'i',
-      },
-    };
-    if (sourceSemester !== semestersNames[0]) {
-      selector.semester = sourceSemester;
-      selector.source = 'courses';
-    } else {
-      selector.source = 'offer';
-    }
-    return Courses.find(selector, { limit: 20 }).fetch();
-  }, [filterDebounced, sourceSemester]);
 
   if (!planReady || !coursesReady) {
     return <div>Wczytywanie planu...</div>;
@@ -92,18 +48,6 @@ export const PlanPage = () => {
 
   return (
     <div>
-      <input
-        className="bp3-input"
-        value={filter}
-        onChange={(e) => setFilter(e.target.value)}
-        placeholder="Filtruj przedmioty"
-      />
-      <HTMLSelect
-        value={sourceSemester}
-        options={semestersNames}
-        onChange={(e) => setSourceSemester(e.target.value)}
-      />
-      <br />
       <DragDropContext
         onDragStart={(initial) => {
           if (initial.source.droppableId !== 'listing') {
@@ -159,8 +103,13 @@ export const PlanPage = () => {
           });
         }}
       >
-        <div style={{ display: 'flex' }}>
-          <ListingWrapper courses={courses} showTrash={showTrash} />
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateRows: 'auto 1fr',
+          }}
+        >
+          <ListingWrapper showTrash={showTrash} />
           {localPlan.semesters.map((semester, index) => (
             <SemesterWrapper semester={semester} key={index} />
           ))}

@@ -10,7 +10,10 @@ interface SemesterWrapperProps {
 export const SemesterWrapper = ({ semester }: SemesterWrapperProps) => {
   return (
     <>
-      <div style={{ width: semester.isGap ? 200 : 300 }}>
+      <div style={{ gridRow: 1 }}>
+        Semester header {semester.isGap ? '' : semester.semesterNumber}
+      </div>
+      <div style={{ gridRow: 2, width: semester.isGap ? 200 : 300 }}>
         {semester.isGap ? (
           'wolne :)'
         ) : (
