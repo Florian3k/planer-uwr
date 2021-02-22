@@ -68,7 +68,10 @@ export const PlanPage = () => {
 
   const courses = useTracker(() => {
     const selector: Mongo.Selector<Course> = {
-      name: { $regex: filterDebounced, $options: 'i' },
+      name: {
+        $regex: filterDebounced.replace(/[\\^$*+?.()|[\]{}]/g, '\\$&'),
+        $options: 'i',
+      },
     };
     if (sourceSemester !== semestersNames[0]) {
       selector.semester = sourceSemester;
