@@ -16,7 +16,6 @@ import {
   removeCourseImpl,
 } from '/imports/api/plans';
 import { ListingWrapper } from './Listing/ListingWrapper';
-import { SemesterWrapper } from './Semester/SemesterWrapper';
 import { SemestersWrapper } from './Semester/SemestersWrapper';
 
 export const PlanPage = () => {
