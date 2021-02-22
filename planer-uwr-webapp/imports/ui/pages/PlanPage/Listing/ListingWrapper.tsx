@@ -57,7 +57,7 @@ export const ListingWrapper = ({ showTrash }: ListingWrapperProps) => {
 
   return (
     <>
-      <div style={{ gridRow: 1 }}>
+      <div style={{ gridRow: 1, width: 300 }}>
         <input
           className="bp3-input"
           value={filter}
@@ -70,15 +70,23 @@ export const ListingWrapper = ({ showTrash }: ListingWrapperProps) => {
           onChange={(e) => setSourceSemester(e.target.value)}
         />
       </div>
-      <div style={{ gridRow: 2, position: 'relative',  }}>
+      <div
+        style={{
+          gridRow: 2,
+          width: 300,
+          position: 'relative',
+          height: '100%',
+          overflow: 'hidden',
+        }}
+      >
         <Droppable droppableId="trash" isDropDisabled={!showTrash}>
           {(provided) => (
             <div
               style={{
                 position: 'absolute',
                 background: 'rgba(255, 0, 0, 0.5)',
-                width: 200,
-                height: 200,
+                width: 300,
+                height: 300,
                 fontSize: 40,
                 visibility: showTrash ? 'unset' : 'hidden',
               }}
@@ -90,35 +98,37 @@ export const ListingWrapper = ({ showTrash }: ListingWrapperProps) => {
             </div>
           )}
         </Droppable>
-        <div style={{ minWidth: 300, maxWidth: 300, flexGrow: 2 }}>
-          <Droppable droppableId="listing" isDropDisabled>
-            {(provided) => (
-              <div
-                style={{ border: '1px solid green' }}
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                {courses.map((course, courseIndex) => (
-                  <Draggable
-                    draggableId={`listing-${course._id}`}
-                    index={courseIndex}
-                    key={`listing-${course._id}`}
-                  >
-                    {(provided, snapshot) => (
-                      <>
-                        <CourseWrapper course={course} provided={provided} />
-                        {snapshot.isDragging && (
-                          <CourseWrapper course={course} />
-                        )}
-                      </>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </div>
+        <Droppable droppableId="listing" isDropDisabled>
+          {(provided) => (
+            <div
+              style={{
+                width: 300,
+                border: '1px solid green',
+                height: '100%',
+                overflowY: 'scroll',
+                overflowX: 'hidden',
+              }}
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {courses.map((course, courseIndex) => (
+                <Draggable
+                  draggableId={`listing-${course._id}`}
+                  index={courseIndex}
+                  key={`listing-${course._id}`}
+                >
+                  {(provided, snapshot) => (
+                    <>
+                      <CourseWrapper course={course} provided={provided} />
+                      {snapshot.isDragging && <CourseWrapper course={course} />}
+                    </>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
       </div>
     </>
   );

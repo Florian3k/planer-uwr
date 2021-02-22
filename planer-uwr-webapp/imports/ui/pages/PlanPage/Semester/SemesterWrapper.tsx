@@ -20,7 +20,7 @@ export const SemesterWrapper = ({ semester }: SemesterWrapperProps) => {
           <Droppable droppableId={semester.semesterNumber.toString()}>
             {(provided) => (
               <div
-                style={{ minHeight: 600, border: '1px solid blue', width: 300 }}
+                style={{ height: '100%', border: '1px solid blue', width: 300 }}
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >

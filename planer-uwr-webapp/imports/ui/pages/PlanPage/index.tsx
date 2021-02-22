@@ -47,7 +47,16 @@ export const PlanPage = () => {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        padding: 10,
+        width: '100vw',
+        height: '100vh',
+        overflow: 'hidden',
+        display: 'grid',
+        gridTemplateRows: 'auto 1fr 200px',
+      }}
+    >
       <DragDropContext
         onDragStart={(initial) => {
           if (initial.source.droppableId !== 'listing') {
@@ -103,16 +112,25 @@ export const PlanPage = () => {
           });
         }}
       >
+        <ListingWrapper showTrash={showTrash} />
         <div
           style={{
+            overflowX: 'scroll',
+            // Chrome doesn't support display: subgrid :'(
+            // display: 'subgrid',
+            gridRow: '1 / span 2',
             display: 'grid',
             gridTemplateRows: 'auto 1fr',
           }}
         >
-          <ListingWrapper showTrash={showTrash} />
           {localPlan.semesters.map((semester, index) => (
             <SemesterWrapper semester={semester} key={index} />
           ))}
+        </div>
+        <div
+          style={{ border: '1px solid deeppink', gridColumn: '1 / span 1000' }}
+        >
+          test
         </div>
       </DragDropContext>
     </div>

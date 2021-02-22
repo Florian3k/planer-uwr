@@ -39,9 +39,7 @@ export const CourseWrapper = ({
     >
       <div
         style={{
-          minWidth: 200,
-          maxWidth: 300,
-          flexGrow: 2,
+          width: 300,
           padding: 4,
           paddingBottom: 0,
         }}
