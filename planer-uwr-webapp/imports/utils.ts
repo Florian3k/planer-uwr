@@ -21,6 +21,7 @@ export const shortNameByType: Record<number, string | undefined> = {
   '13': 'P',
   '14': 'S',
   '15': 'N',
+  '17': 'L',
   '35': 'Inny',
   '36': 'K1',
   '37': 'K2',
