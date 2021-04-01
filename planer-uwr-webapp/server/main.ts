@@ -29,7 +29,15 @@ Meteor.startup(async () => {
       rulesetId:
         Rulesets.findOne()?._id ??
         elseThrow('Initial migration - ruleset not found!'),
-      semesters: [],
+      semesters: [
+        { semesterNumber: 1, isGap: false, courses: [] },
+        { semesterNumber: 2, isGap: false, courses: [] },
+        { semesterNumber: 3, isGap: false, courses: [] },
+        { semesterNumber: 4, isGap: false, courses: [] },
+        { semesterNumber: 5, isGap: false, courses: [] },
+        { semesterNumber: 6, isGap: false, courses: [] },
+        { semesterNumber: 7, isGap: false, courses: [] },
+      ],
     });
   }
 });
