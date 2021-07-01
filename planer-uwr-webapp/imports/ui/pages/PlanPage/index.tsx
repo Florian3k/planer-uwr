@@ -17,6 +17,8 @@ import {
 } from '/imports/api/plans';
 import { ListingWrapper } from './Listing/ListingWrapper';
 import { SemestersWrapper } from './Semester/SemestersWrapper';
+import { Rulesets } from '../../../api/rulesets';
+import { RulesetSummary } from './RulesetSummary';
 
 export const PlanPage = () => {
   const { planId } = useParams();
@@ -32,6 +34,11 @@ export const PlanPage = () => {
     return [plan, sub.ready()] as const;
   }, []) ?? [undefined, false];
 
+  const [ruleset, rulesetReady] = useTracker(() => {
+    const sub = Meteor.subscribe('rulesets');
+    return [Rulesets.findOne(plan?.rulesetId), sub.ready()] as const;
+  }, [plan?.rulesetId]);
+
   const [showTrash, setShowTrash] = useState(false);
 
   const coursesReady = useTracker(() => {
@@ -46,11 +53,11 @@ export const PlanPage = () => {
     );
   }, []);
 
-  if (!planReady || !coursesReady) {
+  if (!planReady || !coursesReady || !rulesetReady) {
     return <div>Wczytywanie planu...</div>;
   }
 
-  if (!localPlan || !plan) {
+  if (!localPlan || !plan || !ruleset) {
     return <div>Nie znaleziono planu :(</div>;
   }
 
@@ -136,11 +143,7 @@ export const PlanPage = () => {
             semesters={localPlan.semesters}
           />
         </div>
-        <div
-          style={{ border: '1px solid deeppink', gridColumn: '1 / span 1000' }}
-        >
-          test
-        </div>
+        <RulesetSummary ruleset={ruleset} plan={localPlan} />
       </DragDropContext>
     </div>
   );

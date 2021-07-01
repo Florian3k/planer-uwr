@@ -14,6 +14,7 @@ export function isMeteorError(
 
 export const shortNameByType: Record<number, string | undefined> = {
   '5': 'I1',
+  '6': 'I2',
   '7': 'I.inż',
   '8': 'O1',
   '9': 'O2',

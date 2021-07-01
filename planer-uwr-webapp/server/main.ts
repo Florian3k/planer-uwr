@@ -4,6 +4,7 @@ import { Plans } from '/imports/api/plans';
 import { Rulesets } from '/imports/api/rulesets';
 import { importCourses } from './import';
 import '/imports/api/accounts';
+import { bachelorRules, engineeringRules } from './rules';
 
 const elseThrow = (message: string): never => {
   throw new Error(message);
@@ -13,11 +14,16 @@ Meteor.startup(async () => {
   if (Courses.find().count() === 0) {
     await importCourses();
   }
-  if (Rulesets.find().count() === 0) {
+  if (Rulesets.find().count() < 2) {
     Rulesets.insert({
-      name: 'Ruleset for testing',
+      name: 'Licencjackie od 2019/2020',
+      semesterCount: 6,
+      rules: bachelorRules,
+    });
+    Rulesets.insert({
+      name: 'Inżynierskie od 2019/2020',
       semesterCount: 7,
-      rules: [],
+      rules: engineeringRules,
     });
   }
   if (Plans.find().count() === 0) {
@@ -27,17 +33,13 @@ Meteor.startup(async () => {
         Meteor.users.findOne({ username: 'admin' })?._id ??
         elseThrow('Initial migration - admin not found!'),
       rulesetId:
-        Rulesets.findOne()?._id ??
+        Rulesets.findOne({ name: 'Inżynierskie od 2019/2020' })?._id ??
         elseThrow('Initial migration - ruleset not found!'),
-      semesters: [
-        { semesterNumber: 1, isGap: false, courses: [] },
-        { semesterNumber: 2, isGap: false, courses: [] },
-        { semesterNumber: 3, isGap: false, courses: [] },
-        { semesterNumber: 4, isGap: false, courses: [] },
-        { semesterNumber: 5, isGap: false, courses: [] },
-        { semesterNumber: 6, isGap: false, courses: [] },
-        { semesterNumber: 7, isGap: false, courses: [] },
-      ],
+      semesters: Array.from({ length: 7 }).map((_x, i) => ({
+        semesterNumber: i + 1,
+        isGap: false,
+        courses: [],
+      })),
       customCourses: [],
       nextCustomId: 1,
     });
