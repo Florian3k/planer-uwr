@@ -1,8 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
+import { Random } from 'meteor/random';
 import * as z from 'zod';
 
 import { ValidatedMethod } from '../method';
+import { shortNameByType } from '../utils';
 import { Course, Courses } from './courses';
 
 export const courseEntrySchema = z.object({
@@ -29,11 +31,25 @@ export const semesterSchema = z.union([
 
 export type Semester = z.infer<typeof semesterSchema>;
 
+const customCourseSchema = z.object({
+  _id: z.string(),
+  id: z.number().int(),
+  source: z.literal('custom'),
+  name: z.string(),
+  courseType: z.number().int(),
+  effects: z.array(z.number().int()),
+  ects: z.number().int(),
+});
+
+export type CustomCourse = z.infer<typeof customCourseSchema>;
+
 export const planSchema = z.object({
   name: z.string(),
   ownerId: z.string(),
   rulesetId: z.string(),
   semesters: z.array(semesterSchema),
+  customCourses: z.array(customCourseSchema),
+  nextCustomId: z.number().int().nonnegative(),
 });
 
 export interface Plan extends z.infer<typeof planSchema> {
@@ -121,6 +137,50 @@ export const removeCourse = new ValidatedMethod({
     if (removeCourseImpl(plan, fromColumn, fromIndex)) {
       Plans.update({ _id: planId }, plan);
     }
+  },
+});
+
+export const addCustomCourse = new ValidatedMethod({
+  name: 'Plan.addCustomCourse',
+  schema: z.object({
+    planId: z.string(),
+    name: z.string().nonempty().max(64),
+    courseType: z.number().refine((type) => type in shortNameByType),
+    ects: z.number().int().min(-100).max(100),
+    effects: z.array(
+      z
+        .number()
+        .int()
+        .refine((effect) => ([] as unknown[]).includes(effect)), // TODO
+    ),
+  }),
+  run({ planId, name, courseType, ects, effects }) {
+    console.log({ name, courseType, ects, effects });
+
+    const plan = Plans.findOne({
+      _id: planId,
+      ownerId: this.userId!,
+    });
+
+    if (!plan) {
+      return;
+    }
+    const newCourse: CustomCourse = {
+      _id: Random.id(),
+      id: plan.nextCustomId,
+      source: 'custom',
+      name,
+      courseType,
+      ects,
+      effects,
+    };
+
+    Plans.update(planId, {
+      $inc: { nextCustomId: 1 },
+      $push: {
+        customCourses: newCourse,
+      },
+    });
   },
 });
 

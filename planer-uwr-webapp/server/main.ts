@@ -38,6 +38,8 @@ Meteor.startup(async () => {
         { semesterNumber: 6, isGap: false, courses: [] },
         { semesterNumber: 7, isGap: false, courses: [] },
       ],
+      customCourses: [],
+      nextCustomId: 1,
     });
   }
 });
