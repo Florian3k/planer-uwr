@@ -1,12 +1,12 @@
 import { useTracker } from 'meteor/react-meteor-data';
 import React from 'react';
 import { Course, Courses } from '/imports/api/courses';
-import { Plan } from '/imports/api/plans';
+import { Plans } from '/imports/api/plans';
 import { BaseRule, Ruleset } from '/imports/api/rulesets';
 
 type RulesetSummaryProps = {
   ruleset: Ruleset;
-  plan: Plan;
+  planId: string;
 };
 
 const filterCourses = (courses: Course[], rule: BaseRule) =>
@@ -23,14 +23,21 @@ const filterCourses = (courses: Course[], rule: BaseRule) =>
     )
     .reduce((acc, course) => acc + course.ects, 0);
 
-export const RulesetSummary = ({ ruleset, plan }: RulesetSummaryProps) => {
-  const courses = useTracker(() => {
-    return plan.semesters
+export const RulesetSummary = ({ ruleset, planId }: RulesetSummaryProps) => {
+  const [plan, courses] = useTracker(() => {
+    const plan = Plans.findOne(planId);
+    const courses = plan?.semesters
       .flatMap((sem) => (sem.isGap ? [] : sem.courses))
       .flatMap((course) =>
         course.source === 'custom' ? [] : [Courses.findOne({ id: course.id })!],
       );
+
+    return [plan, courses];
   }, []);
+
+  if (!plan || !courses) {
+    return null;
+  }
 
   return (
     <div style={{ border: '1px solid deeppink', gridColumn: '1 / span 1000' }}>
@@ -41,14 +48,22 @@ export const RulesetSummary = ({ ruleset, plan }: RulesetSummaryProps) => {
             key={ruleset._id + rule.name + idx}
             style={{ border: '1px solid maroon', padding: 4 }}
           >
-            <b>{rule.name}</b> {filterCourses(courses, rule)}
+            <b>{rule.name}</b> {filterCourses(courses, rule)}{' '}
+            {filterCourses(courses, rule) >=
+            (rule.condition === true ? 1 : rule.condition)
+              ? 'GOOD'
+              : 'BAD'}
             {rule.subRules &&
               rule.subRules.map((rule, idx) => (
                 <span
                   key={ruleset._id + rule.name + idx}
                   style={{ border: '1px solid maroon', padding: 4 }}
                 >
-                  <b>{rule.name}</b> {filterCourses(courses, rule)}
+                  <b>{rule.name}</b> {/* {filterCourses(courses, rule)} */}{' '}
+                  {filterCourses(courses, rule) >=
+                  (rule.condition === true ? 1 : rule.condition)
+                    ? 'GOOD'
+                    : 'BAD'}
                 </span>
               ))}
           </div>

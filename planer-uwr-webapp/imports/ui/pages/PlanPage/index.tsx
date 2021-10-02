@@ -143,7 +143,7 @@ export const PlanPage = () => {
             semesters={localPlan.semesters}
           />
         </div>
-        <RulesetSummary ruleset={ruleset} plan={localPlan} />
+        <RulesetSummary ruleset={ruleset} planId={localPlan._id!} />
       </DragDropContext>
     </div>
   );
