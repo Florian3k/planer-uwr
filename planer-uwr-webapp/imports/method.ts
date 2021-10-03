@@ -38,7 +38,7 @@ export class ValidatedMethod<T, R> {
     const self = this;
     Meteor.methods({
       [name](data) {
-        self.run.call(this, self.schema.parse(data));
+        return self.run.call(this, self.schema.parse(data));
       },
     });
   }
