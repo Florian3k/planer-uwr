@@ -1,14 +1,12 @@
 import { Meteor } from 'meteor/meteor';
-import { Courses } from '/imports/api/courses';
-import { Plans } from '/imports/api/plans';
-import { Rulesets } from '/imports/api/rulesets';
-import { importCourses } from './import';
-import '/imports/api/accounts';
-import { bachelorRules, engineeringRules } from './rules';
 
-const elseThrow = (message: string): never => {
-  throw new Error(message);
-};
+import { Courses } from '/imports/api/courses';
+import { Rulesets } from '/imports/api/rulesets';
+import '/imports/api/accounts';
+import '/imports/api/plans';
+
+import { importCourses } from './import';
+import { bachelorRules, engineeringRules } from './rules';
 
 Meteor.startup(async () => {
   if (Courses.find().count() === 0) {
@@ -24,24 +22,6 @@ Meteor.startup(async () => {
       name: 'Inżynierskie od 2019/2020',
       semesterCount: 7,
       rules: engineeringRules,
-    });
-  }
-  if (Plans.find().count() === 0) {
-    Plans.insert({
-      name: "Admin's plan for testing",
-      ownerId:
-        Meteor.users.findOne({ username: 'admin' })?._id ??
-        elseThrow('Initial migration - admin not found!'),
-      rulesetId:
-        Rulesets.findOne({ name: 'Inżynierskie od 2019/2020' })?._id ??
-        elseThrow('Initial migration - ruleset not found!'),
-      semesters: Array.from({ length: 7 }).map((_x, i) => ({
-        semesterNumber: i + 1,
-        isGap: false,
-        courses: [],
-      })),
-      customCourses: [],
-      nextCustomId: 1,
     });
   }
 });
