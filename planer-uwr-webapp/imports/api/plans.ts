@@ -6,6 +6,7 @@ import * as z from 'zod';
 import { ValidatedMethod } from '../method';
 import { shortNameByType } from '../utils';
 import { Course, Courses } from './courses';
+import { Rulesets } from './rulesets';
 
 export const courseEntrySchema = z.object({
   id: z.number().int(),
@@ -65,6 +66,37 @@ if (Meteor.isServer) {
 }
 
 const indexSchema = z.number().int().nonnegative();
+
+export const createPlan = new ValidatedMethod({
+  name: 'Plans.createPlan',
+  schema: z.object({
+    rulesetId: z.string(),
+    name: z.string().min(4).max(64),
+  }),
+  run({ rulesetId, name }) {
+    if (!this.userId) {
+      return;
+    }
+
+    const ruleset = Rulesets.findOne(rulesetId);
+    if (!ruleset) {
+      return;
+    }
+
+    return Plans.insert({
+      name,
+      ownerId: this.userId,
+      rulesetId,
+      semesters: Array.from({ length: ruleset.semesterCount }).map((_x, i) => ({
+        semesterNumber: i + 1,
+        isGap: false,
+        courses: [],
+      })),
+      customCourses: [],
+      nextCustomId: 1,
+    });
+  },
+});
 
 export const moveCourse = new ValidatedMethod({
   name: 'Plan.moveCourse',
