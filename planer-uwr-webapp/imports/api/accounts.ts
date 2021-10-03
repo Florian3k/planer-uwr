@@ -8,24 +8,32 @@ Meteor.users.deny({
   },
 });
 
-// at least 4 chars, starting with letter
-export const usernameSchema = z.string().regex(/^[A-Za-z][A-Za-z0-9]{3,}$/);
-
 const userSchema = z.object({
   _id: z.string(),
-  username: usernameSchema,
-  emails: z
-    .array(
-      z.object({
-        address: z.string().email(),
-        verified: z.literal(false),
-      }),
-    )
-    .min(1),
-  services: z.any(),
   createdAt: z.date(),
+  services: z.object({
+    github: z.object({
+      id: z.number(),
+      accessToken: z.string(),
+      email: z.literal(''),
+      username: z.string(),
+      emails: z.array(z.never()),
+    }),
+    resume: z.unknown(),
+  }),
+  profile: z.unknown(),
 });
 
 Accounts.validateNewUser((user: unknown) => {
+  console.log(user);
   return userSchema.check(user);
+});
+
+Accounts.onCreateUser(function (options, user) {
+  const customizedUser = { ...user, username: user.services.github.username };
+
+  if (options.profile) {
+    customizedUser.profile = options.profile;
+  }
+  return customizedUser;
 });

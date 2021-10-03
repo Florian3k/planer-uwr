@@ -5,12 +5,28 @@ import React from 'react';
 
 export const ProfileInfo = () => {
   const user = useTracker(() => Meteor.user());
+  if (!user) {
+    return null;
+  }
   return (
-    <Card elevation={Elevation.TWO}>
-      <h2 style={{ textAlign: 'center', marginTop: 0 }}>
-        Witaj {user?.username}
-      </h2>
-      <Button intent="primary" onClick={() => Meteor.logout()}>
+    <Card
+      elevation={Elevation.TWO}
+      style={{ display: 'flex', flexDirection: 'column' }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <img
+          src={`https://github.com/${user.username}.png?size=64`}
+          style={{ borderRadius: 32, marginRight: 16 }}
+          width={64}
+          height={64}
+        />
+        <h2>Witaj {user.username}</h2>
+      </div>
+      <Button
+        style={{ alignSelf: 'flex-end' }}
+        intent="primary"
+        onClick={() => Meteor.logout()}
+      >
         Wyloguj
       </Button>
     </Card>
