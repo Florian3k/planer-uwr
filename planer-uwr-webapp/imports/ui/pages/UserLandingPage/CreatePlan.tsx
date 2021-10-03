@@ -47,7 +47,6 @@ export const CreatePlan = () => {
                 createPlan.call(
                   { name: planName, rulesetId: _id! },
                   (err, res) => {
-                    console.log(err, res);
                     setLoadingId(null);
                     if (err) {
                       console.error(err);

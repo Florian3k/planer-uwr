@@ -25,7 +25,6 @@ const userSchema = z.object({
 });
 
 Accounts.validateNewUser((user: unknown) => {
-  console.log(user);
   return userSchema.check(user);
 });
 

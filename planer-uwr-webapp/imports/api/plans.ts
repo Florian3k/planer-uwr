@@ -187,8 +187,6 @@ export const addCustomCourse = new ValidatedMethod({
     ),
   }),
   run({ planId, name, courseType, ects, effects }) {
-    console.log({ name, courseType, ects, effects });
-
     const plan = Plans.findOne({
       _id: planId,
       ownerId: this.userId!,

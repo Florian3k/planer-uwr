@@ -16,9 +16,7 @@ export const Login = ({ loggingIn }: LoginProps) => {
         onClick={() => {
           Meteor.loginWithGithub({ requestPermissions: [] }, (err) => {
             if (err) {
-              console.log(err);
-            } else {
-              console.log('Success!');
+              console.error(err);
             }
           });
         }}
