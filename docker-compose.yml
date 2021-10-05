@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  backend_planer:
+    build: .
+    ports:
+      - 7777:7777
+    environment:
+      PORT: ${PORT:?err}
+      ROOT_URL: ${ROOT_URL:?err}
+      MONGO_URL: 'mongodb://${MONGO_USERNAME:?err}:${MONGO_PASSWORD:?err}@db_mongo'
+      IMPORT_DATA_PATH: ${IMPORT_DATA_PATH:?err}
+      GH_CLIENT_ID: ${GH_CLIENT_ID:?err}
+      GH_SECRET: ${GH_SECRET:?err}
+    volumes:
+      - ./import-data:${IMPORT_DATA_PATH?:err}
+
+  db_mongo:
+    image: mongo:4.4
+    # ports:
+    # - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME:?err}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:?err}
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:

@@ -15,8 +15,8 @@ Meteor.startup(async () => {
     {
       $set: {
         loginStyle: 'popup',
-        clientId: Meteor.settings.github.clientId,
-        secret: Meteor.settings.github.secret,
+        clientId: Meteor.settings.github?.clientId ?? process.env.GH_CLIENT_ID,
+        secret: Meteor.settings.github?.secret ?? process.env.GH_SECRET,
       },
     },
   );

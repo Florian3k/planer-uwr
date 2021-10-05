@@ -2,5 +2,6 @@
   "github": {
     "clientId": "",
     "secret": ""
-  }
+  },
+  "useDevDataPath": true
 }

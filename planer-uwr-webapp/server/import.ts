@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { Meteor } from 'meteor/meteor';
 import { join } from 'path';
 import util from 'util';
 import * as z from 'zod';
@@ -7,11 +8,17 @@ import { Courses, courseSchema } from '/imports/api/courses';
 
 const readFile = util.promisify(fs.readFile);
 
-const folder = join(process.env.PWD!, '../planer-uwr-scraping/output');
+const getDataPath = () => {
+  if (Meteor.settings.useDevDataPath) {
+    return join(process.env.PWD!, '../planer-uwr-scraping/output');
+  } else {
+    return process.env.IMPORT_DATA_PATH!;
+  }
+};
 
 const openFile = async (filename: string) => {
   try {
-    return readFile(join(folder, filename), 'utf-8');
+    return readFile(join(getDataPath(), filename), 'utf-8');
   } catch {
     return null;
   }
