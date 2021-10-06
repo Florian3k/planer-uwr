@@ -15,7 +15,7 @@ const userSchema = z.object({
     github: z.object({
       id: z.number(),
       accessToken: z.string(),
-      email: z.literal(''),
+      email: z.string(),
       username: z.string(),
       emails: z.array(z.never()),
     }),
@@ -29,7 +29,17 @@ Accounts.validateNewUser((user: unknown) => {
 });
 
 Accounts.onCreateUser(function (options, user) {
-  const customizedUser = { ...user, username: user.services.github.username };
+  const customizedUser = {
+    ...user,
+    username: user.services.github.username,
+    services: {
+      ...user.services,
+      github: {
+        ...user.services.github,
+        email: '',
+      },
+    },
+  };
 
   if (options.profile) {
     customizedUser.profile = options.profile;
