@@ -13,15 +13,19 @@ const project: Rule = {
   subRules: null,
 };
 
+// const getEffectsRule = (kind: "bachelor" | "engineering") => {
+
+// }
+
 export const bachelorRules: Rule[] = [
   {
-    name: 'I + I.Inż >= 54',
+    name: 'I + I.Inż + I2 >= 54',
     description: 'przedmioty informatyczne',
     condition: 54,
     selector: [
       {
         field: 'courseType',
-        value: [5, 7],
+        value: [5, 7, 38, 39],
       },
     ],
     subRules: null,
@@ -43,13 +47,13 @@ export const bachelorRules: Rule[] = [
 
 export const engineeringRules: Rule[] = [
   {
-    name: 'I + I.Inż >= 66',
+    name: 'I + I.Inż + I2 >= 66',
     description: 'przedmioty informatyczne',
     condition: 66,
     selector: [
       {
         field: 'courseType',
-        value: [5, 7],
+        value: [5, 7, 38, 39],
       },
     ],
     subRules: null,

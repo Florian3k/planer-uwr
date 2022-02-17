@@ -24,7 +24,7 @@ Meteor.startup(async () => {
   if (Courses.find().count() === 0) {
     await importCourses();
   }
-  if (Rulesets.find().count() < 2) {
+  if (Rulesets.find().count() === 0) {
     Rulesets.insert({
       name: 'Licencjackie od 2019/2020',
       semesterCount: 6,
