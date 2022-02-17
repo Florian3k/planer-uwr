@@ -238,13 +238,6 @@ export const moveCourseImpl = (
     return;
   }
 
-  if (fromColumn === toColumn) {
-    const temp = to.courses[toIndex];
-    to.courses[toIndex] = to.courses[fromIndex];
-    to.courses[fromIndex] = temp;
-    return plan;
-  }
-
   to.courses.splice(toIndex, 0, from.courses.splice(fromIndex, 1)[0]);
 
   return plan;
