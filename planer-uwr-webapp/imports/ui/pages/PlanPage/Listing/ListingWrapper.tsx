@@ -10,6 +10,7 @@ import { Course, Courses } from '/imports/api/courses';
 
 const semestersNames = [
   'Oferta',
+  '2022/23 zimowy',
   '2021/22 letni',
   '2021/22 zimowy',
   '2020/21 letni',

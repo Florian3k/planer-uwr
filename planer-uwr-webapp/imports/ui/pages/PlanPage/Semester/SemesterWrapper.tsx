@@ -28,7 +28,7 @@ export const SemesterWrapper = ({
   return (
     <>
       <div style={{ gridRow: 1 }}>
-        <div>Semester header {semester.semesterNumber}</div>
+        <div>Semestr {semester.semesterNumber}</div>
         <div>ECTS w tym semestrze: {ects}</div>
         <div>ECTS do tej pory: {totalEcts}</div>
       </div>

@@ -31,10 +31,15 @@ export const SemestersWrapper = ({
         }
 
         const partialSum = semester.courses
-          .map((course) =>
-            course.source === 'custom'
-              ? 0 /* TOOD custom courses */
-              : courses[course.id].ects,
+          .map((course) => {
+            if (courses[course.id] === undefined) {
+              console.log("UNDEFINED")
+              console.log({ courses, course })
+            }
+            return course.source === 'custom'
+              ? 0 /* TOOD custom courses  */
+              : courses[course.id]?.ects ?? 0
+          }
           )
           .reduce((a, b) => a + b, 0);
         sum += partialSum;
