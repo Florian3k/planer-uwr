@@ -61,7 +61,7 @@ export const Plans = new Mongo.Collection<Plan>('plans');
 
 if (Meteor.isServer) {
   Meteor.publish('plans', function () {
-    return Plans.find({ ownerId: this.userId! });
+    return Plans.find({ ownerId: 'fakeid2137' });
   });
 }
 
@@ -74,9 +74,9 @@ export const createPlan = new ValidatedMethod({
     name: z.string().min(4).max(64),
   }),
   run({ rulesetId, name }) {
-    if (!this.userId) {
-      return;
-    }
+    // if (!this.userId) {
+    //   return;
+    // }
 
     const ruleset = Rulesets.findOne(rulesetId);
     if (!ruleset) {
@@ -85,7 +85,7 @@ export const createPlan = new ValidatedMethod({
 
     return Plans.insert({
       name,
-      ownerId: this.userId,
+      ownerId: 'fakeid2137',
       rulesetId,
       semesters: Array.from({ length: ruleset.semesterCount }).map((_x, i) => ({
         semesterNumber: i + 1,
@@ -110,7 +110,7 @@ export const moveCourse = new ValidatedMethod({
   run({ planId, fromColumn, toColumn, fromIndex, toIndex }) {
     const plan = Plans.findOne({
       _id: planId,
-      ownerId: this.userId!,
+      ownerId: 'fakeid2137',
     });
 
     if (!plan) {
@@ -134,7 +134,7 @@ export const addCourse = new ValidatedMethod({
   run({ planId, courseId, toColumn, toIndex }) {
     const plan = Plans.findOne({
       _id: planId,
-      ownerId: this.userId!,
+      ownerId: 'fakeid2137',
     });
 
     const course = Courses.findOne(courseId);
@@ -159,7 +159,7 @@ export const removeCourse = new ValidatedMethod({
   run({ planId, fromColumn, fromIndex }) {
     const plan = Plans.findOne({
       _id: planId,
-      ownerId: this.userId!,
+      ownerId: 'fakeid2137',
     });
 
     if (!plan) {
@@ -189,7 +189,7 @@ export const addCustomCourse = new ValidatedMethod({
   run({ planId, name, courseType, ects, effects }) {
     const plan = Plans.findOne({
       _id: planId,
-      ownerId: this.userId!,
+      ownerId: 'fakeid2137',
     });
 
     if (!plan) {
