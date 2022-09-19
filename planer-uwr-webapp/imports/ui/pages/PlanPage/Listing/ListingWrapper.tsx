@@ -63,6 +63,7 @@ export const ListingWrapper = ({ showTrash }: ListingWrapperProps) => {
       <div style={{ gridRow: 1, width: 300 }}>
         <input
           className="bp3-input"
+          style={{ width: '45%', marginRight: 5 }}
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
           placeholder="Filtruj przedmioty"
@@ -70,6 +71,7 @@ export const ListingWrapper = ({ showTrash }: ListingWrapperProps) => {
         <HTMLSelect
           value={sourceSemester}
           options={semestersNames}
+          style={{ display: 'inline-block' }}
           onChange={(e) => setSourceSemester(e.target.value)}
         />
       </div>
@@ -91,6 +93,7 @@ export const ListingWrapper = ({ showTrash }: ListingWrapperProps) => {
                 width: 300,
                 height: 300,
                 fontSize: 40,
+                zIndex: 100,
                 visibility: showTrash ? 'unset' : 'hidden',
               }}
               ref={provided.innerRef}
@@ -106,7 +109,6 @@ export const ListingWrapper = ({ showTrash }: ListingWrapperProps) => {
             <div
               style={{
                 width: 300,
-                border: '1px solid green',
                 height: '100%',
                 overflowY: 'scroll',
                 overflowX: 'hidden',

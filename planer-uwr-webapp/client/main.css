@@ -1,6 +1,7 @@
 body {
   font-family: sans-serif;
-  background-color: #293742;
+  /* background-color: #293742; */
+  background-color: #202b34;
 }
 
 .course-wrapper-clone {
@@ -13,4 +14,39 @@ body {
 
 .course-wrapper-clone ~ div {
   transform: none !important;
+}
+
+.course-wrapper-inner {
+  background-color: #293742;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px;
+  box-shadow: #1b242c 0px 5px 0px;
+  text-align: left;
+}
+
+.course-wrapper-inner .course-title {
+  margin-bottom: 7px;
+}
+
+.course-wrapper-inner .source-tag {
+  background-color: #1b242c !important;
+  color: #adadad !important;
+  margin-left: 5px;
+}
+
+.course-wrapper-inner .ects-tag {
+  margin-left: 5px;
+}
+
+.semester-wrapper {
+  /* background-color: #293742; */
+  padding: 0 10px;
+  margin-top: 10px;
+  height: '100%';
+  text-align: center;
+}
+
+.semester-wrapper > span.empty-semester {
+  opacity: 0.5;
 }
