@@ -1,11 +1,13 @@
 import { useTracker } from 'meteor/react-meteor-data';
 import React from 'react';
 import { DraggableProvided } from 'react-beautiful-dnd';
+import { Tag } from '@blueprintjs/core';
+import { Tooltip2, Popover2 } from '@blueprintjs/popover2';
 import { Courses } from '../../../api/courses';
 import { CourseEntry } from '../../../api/plans';
 import { courseTypeById, getTextColor } from '../../../utils';
-import { Tag } from '@blueprintjs/core';
-import { Tooltip2, Popover2 } from '@blueprintjs/popover2';
+import CourseTypeTag from './CourseTypeTag';
+import CourseEffectTag from './CourseEffectTag';
 
 interface CourseWrapperProps {
   course: CourseEntry;
@@ -31,13 +33,7 @@ export const CourseWrapper = ({
   }
 
   const source = course.source === 'courses' ? course.semester : 'Oferta';
-  const courseType = courseTypeById[course.courseType];
   const ectsPercent = (course.ects > 10) ? 10 : (course.ects * 10);
-  if (course.ects > 10) {
-    console.log(course.name, course.ects);
-  }
-
-  
 
   return (
     <div
@@ -56,19 +52,7 @@ export const CourseWrapper = ({
         <div className='course-wrapper-inner'>
           <div className='course-title'>{course.name}</div>
           <div>
-            {courseType && (
-              <Popover2>
-                <Tooltip2 content={courseType.fullName} position='bottom' hoverOpenDelay={300}>
-                  <Tag style={{
-                      backgroundColor: `rgb(${courseType.color.join(',')})`,
-                      color: getTextColor(courseType.color)
-                    }}
-                  >
-                    {courseType.name}
-                  </Tag>
-                </Tooltip2>
-              </Popover2>
-            )}
+            <CourseTypeTag courseType={courseTypeById[course.courseType]} />
             <Tag className='ects-tag' style={{
               backgroundColor: `hsl(0, 0%, ${ectsPercent*0.7 + 15}%)`,
               color: getTextColor([ectsPercent * 2.55, ectsPercent * 2.55, ectsPercent * 2.55])
@@ -78,6 +62,7 @@ export const CourseWrapper = ({
             <Tag className='source-tag'>
               {source}
             </Tag>
+            <CourseEffectTag effects={course.effects} />
           </div>
         </div>
       </div>

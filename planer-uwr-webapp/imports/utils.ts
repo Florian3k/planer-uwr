@@ -12,15 +12,15 @@ export function isMeteorError(
   );
 }
 
-type Color = [number, number, number];
+export type Color = [number, number, number];
 
-interface CourseType {
+export interface CourseType {
   name: string;
   fullName: string;
   color: Color;
 }
 
-export const courseTypeById: Record<number, CourseType | undefined> = {
+export const courseTypeById: Record<number, CourseType> = {
   '5': { name: 'I1', color: [0, 100, 240], fullName: 'Informatyczny 1' },
   '6': { name: 'I2', color: [0, 100, 240], fullName: 'Informatyczny 2' },
   '7': { name: 'I.inż', color: [90, 40, 255], fullName: 'Informatyczny Inynierski' },
