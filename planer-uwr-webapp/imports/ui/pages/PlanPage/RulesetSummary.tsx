@@ -1,5 +1,7 @@
 import { useTracker } from 'meteor/react-meteor-data';
 import React from 'react';
+import CourseEffectTag, { courseEffects } from './CourseEffectTag';
+import RuleEntry from './RuleEntry';
 import { Course, Courses } from '/imports/api/courses';
 import { Plans } from '/imports/api/plans';
 import { BaseRule, Ruleset } from '/imports/api/rulesets';
@@ -40,7 +42,7 @@ export const RulesetSummary = ({ ruleset, planId }: RulesetSummaryProps) => {
   }
 
   return (
-    <div style={{ border: '1px solid deeppink', gridColumn: '1 / span 1000' }}>
+    <div style={{ border: '1px solid deeppink', gridColumn: '1 / span 1000', overflow: 'scroll' }}>
       <div>
         <div>{ruleset.name}</div>
         {ruleset.rules.map((rule, idx) => (
@@ -48,24 +50,39 @@ export const RulesetSummary = ({ ruleset, planId }: RulesetSummaryProps) => {
             key={ruleset._id + rule.name + idx}
             style={{ border: '1px solid maroon', padding: 4 }}
           >
-            <b>{rule.name}</b> {filterCourses(courses, rule)}{' '}
+            <RuleEntry rule={rule} />
+            {filterCourses(courses, rule)}{' '}
             {filterCourses(courses, rule) >=
             (rule.condition === true ? 1 : rule.condition)
               ? 'GOOD'
               : 'BAD'}
             {rule.subRules &&
-              rule.subRules.map((rule, idx) => (
-                <span
-                  key={ruleset._id + rule.name + idx}
-                  style={{ border: '1px solid maroon', padding: 4 }}
-                >
-                  <b>{rule.name}</b> {/* {filterCourses(courses, rule)} */}{' '}
+              rule.subRules.map((rule, idx) => {
+                // <span
+                //   key={ruleset._id + rule.name + idx}
+                //   style={{ border: '1px solid maroon', padding: 4 }}
+                // >
+                //   <b>{rule.name}</b> {/* {filterCourses(courses, rule)} */}{' '}
+                //   {filterCourses(courses, rule) >=
+                //   (rule.condition === true ? 1 : rule.condition)
+                //     ? 'GOOD'
+                //     : 'BAD'}
+                const ruleKey = courseEffects.reduce<number>((total, effect) => (
+                  (!total && effect.value === rule.name) ? effect.key : total
+                ), 0);
+                return (
+                  <span
+                    key={ruleset._id + rule.name + idx}
+                    style={{ border: '1px solid maroon', padding: 4 }}
+                  >
+                  <CourseEffectTag effects={[ruleKey]} />
                   {filterCourses(courses, rule) >=
                   (rule.condition === true ? 1 : rule.condition)
                     ? 'GOOD'
                     : 'BAD'}
-                </span>
-              ))}
+                  </span>
+                );
+              })}
           </div>
         ))}
       </div>

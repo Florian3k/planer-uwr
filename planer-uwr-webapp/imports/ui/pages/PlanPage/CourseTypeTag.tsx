@@ -14,7 +14,8 @@ const CourseTypeTag = (props: CourseTypeTagProps) => (
                 <Tooltip2 content={props.courseType.fullName} position='bottom' hoverOpenDelay={300}>
                 <Tag style={{
                     backgroundColor: `rgb(${props.courseType.color.join(',')})`,
-                    color: getTextColor(props.courseType.color)
+                    color: getTextColor(props.courseType.color),
+                    textAlign: 'center'
                     }}
                 >
                     {props.courseType.name}

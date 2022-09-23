@@ -42,6 +42,13 @@ export const courseTypeById: Record<number, CourseType> = {
   '43': { name: 'M', color: [255, 135, 0], fullName: 'Matematyczny' }
 };
 
+export const generalCourseTypes: Record<number, CourseType> = {
+  '1': { name: 'O', color: [200, 0, 0], fullName: 'Wszystkie Obowiązkowe' },
+  '2': { name: 'I', color: [0, 100, 240], fullName: 'Wszsytkie Informatyczne' },
+  '3': { name: 'K', color: [130, 30, 200], fullName: 'Wszystkie Kursy' },
+  '4': { name: 'P', color: [0, 170, 90], fullName: 'Wszystkie Projekty' },
+}
+
 export const getTextColor = (bg: Color) => {
   var yiq = ((bg[0]*299)+(bg[1]*587)+(bg[2]*114)) / 1000;
   return (yiq >= 128) ? 'black' : 'white';  

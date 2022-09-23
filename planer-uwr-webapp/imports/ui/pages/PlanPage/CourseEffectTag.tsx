@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { Tag } from '@blueprintjs/core';
 
 interface CourseEffect {
@@ -6,7 +6,7 @@ interface CourseEffect {
   value: string,
 }
 
-const courseEffects: CourseEffect[] = [
+export const courseEffects: CourseEffect[] = [
   {
     key: 2,
     value: 'PiPO'
