@@ -2,7 +2,6 @@ import { useTracker } from 'meteor/react-meteor-data';
 import React from 'react';
 import { DraggableProvided } from 'react-beautiful-dnd';
 import { Tag } from '@blueprintjs/core';
-import { Tooltip2, Popover2 } from '@blueprintjs/popover2';
 import { Courses } from '../../../api/courses';
 import { CourseEntry } from '../../../api/plans';
 import { courseTypeById, getTextColor } from '../../../utils';

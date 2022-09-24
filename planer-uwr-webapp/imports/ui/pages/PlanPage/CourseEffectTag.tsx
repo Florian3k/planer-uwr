@@ -37,8 +37,16 @@ export const courseEffects: CourseEffect[] = [
   },
 ];
 
+export const courseEffectTagType = {
+  passing: { borderBottom: '2px solid rgb(103, 214, 103)', backgroundColor: '##C0D6BF' },
+  failing: { borderBottom: '2px solid rgb(255, 74, 74)', backgroundColor: '##D6BFBF' },
+  none: { border: 'auto', backgroundColor: 'auto' },
+}
+
 interface CourseEffectTagProps {
   effects: number[];
+  margin?: number;
+  type?: 'passing' | 'failing' | 'none';
 }
 
 const CourseEffectTag = (props: CourseEffectTagProps) => (
@@ -47,7 +55,8 @@ const CourseEffectTag = (props: CourseEffectTagProps) => (
       props.effects.includes(key) ? (
         <Tag
           style={{
-            marginLeft: 5
+            marginLeft: (props.margin != null) ? props.margin : 5,
+            ...courseEffectTagType[props.type || 'none'],
           }}
           key={key}
         >

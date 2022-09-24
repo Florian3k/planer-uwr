@@ -23,8 +23,6 @@ const RuleEntry = (props: RuleEntryProps) => {
                     <CourseTypeTag courseType={courseTypeById['6']} />
                     <Separator value="+" />
                     <CourseTypeTag courseType={courseTypeById['7']} />
-                    <Separator value=">=" />
-                    <Separator value={props.rule.condition} />
                 </span>
             );
         case 'Projekt programistyczny':
@@ -44,24 +42,18 @@ const RuleEntry = (props: RuleEntryProps) => {
                     <CourseTypeTag courseType={generalCourseTypes['3']} />
                     <Separator value="+" />
                     <CourseTypeTag courseType={generalCourseTypes['4']} />
-                    <Separator value=">=" />
-                    <Separator value={props.rule.condition} />
                 </span>
             )
         case 'przedmioty informatyczne inż.':
             return (
                 <span>
                     <CourseTypeTag courseType={courseTypeById['7']} />
-                    <Separator value=">=" />
-                    <Separator value={props.rule.condition} />
                 </span>
             );
         case 'Kursy inżynierskie':
             return (
                 <span>
                     <CourseTypeTag courseType={courseTypeById['40']} />
-                    <Separator value=">=" />
-                    <Separator value={props.rule.condition} />
                 </span>
             );
         case 'Efekty kształcenia':

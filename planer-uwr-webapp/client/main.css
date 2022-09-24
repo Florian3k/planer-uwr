@@ -94,3 +94,51 @@ body {
   font-size: 14px;
   margin-top: 30px;
 }
+
+.rule-row {
+  grid-column: 1 / span 500;
+  /* border-top: 2px solid #202B34; */
+  box-shadow: #1b242c 0px -5px 5px;
+  z-index: 1;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.rule-row .subrule-unit {
+  display: inline-block;
+  margin-left: 5px;
+  vertical-align: top;
+}
+
+.rule-row .title {
+  position: absolute;
+  right: 10px;
+  margin: 10px;
+  font-size: 20px;
+  color: #637585;
+}
+
+.rule-row .score {
+  display: inline-block;
+  text-align: left;
+  width: 70px;
+  margin-right: 20px;
+  margin-top: 1px;
+  text-align: right;
+  vertical-align: middle;
+  line-height: 20px;
+}
+
+.rule-row .entry {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.rule-row .rule {
+  padding: 6px;
+}
+
+.rule-row .subrule-dot {
+  text-align: center;
+  font-weight: 900 !important;
+}
