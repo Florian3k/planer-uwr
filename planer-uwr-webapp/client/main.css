@@ -51,6 +51,29 @@ body {
   opacity: 0.5;
 }
 
+.semester-heading {
+  gridRow: 1;
+  padding: 0 20px;
+}
+
+.semester-heading .semester-title {
+  font-weight: 900;
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.semester-heading .ects {
+  width: 25px;
+  display: inline-block;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.semester-heading .desc {
+  display: inline-block;
+  color: #7d95a8;
+}
+
 @keyframes linear-progress-bar-stripes {
   from {
     background-position: 0 0;
