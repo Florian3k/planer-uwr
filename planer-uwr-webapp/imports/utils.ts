@@ -23,7 +23,7 @@ export interface CourseType {
 export const courseTypeById: Record<number, CourseType> = {
   '5': { name: 'I1', color: [0, 100, 240], fullName: 'Informatyczny 1' },
   '6': { name: 'I2', color: [0, 100, 240], fullName: 'Informatyczny 2' },
-  '7': { name: 'I.inż', color: [90, 40, 255], fullName: 'Informatyczny Inynierski' },
+  '7': { name: 'I.inż', color: [90, 40, 255], fullName: 'Informatyczny Inżynierski' },
   '8': { name: 'O1', color: [200, 0, 0], fullName: 'Obowiązkowy 1' },
   '9': { name: 'O2', color: [200, 0, 0], fullName: 'Obowiązkowy 2' },
   '10': { name: 'O3', color: [200, 0, 0], fullName: 'Obowiązkowy 3' },
