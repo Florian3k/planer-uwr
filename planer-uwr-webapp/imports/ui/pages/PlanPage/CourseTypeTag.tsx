@@ -16,8 +16,7 @@ const CourseTypeTag = (props: CourseTypeTagProps) => (
                     backgroundColor: `rgb(${props.courseType.color.join(',')})`,
                     color: getTextColor(props.courseType.color),
                     textAlign: 'center'
-                    }}
-                >
+                }}>
                     {props.courseType.name}
                 </Tag>
                 </Tooltip2>

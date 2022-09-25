@@ -95,6 +95,24 @@ body {
   margin-top: 30px;
 }
 
+.rule {
+  background: linear-gradient(90deg, #533434, #344653 10%, transparent 70%);
+  color: rgb(255, 74, 74);
+}
+
+.rule:nth-child(even) {
+  background: linear-gradient(90deg, #342020, #202B34 10%, transparent 70%);
+}
+
+.rule.ticked {
+  background: linear-gradient(90deg, #375334, #344653 10%, transparent 70%);
+  color: rgb(103, 214, 103);
+}
+
+.rule.ticked:nth-child(even) {
+  background: linear-gradient(90deg, #203420, #202B34 10%, transparent 70%);
+}
+
 .rule-row {
   grid-column: 1 / span 500;
   /* border-top: 2px solid #202B34; */
@@ -141,4 +159,11 @@ body {
 .rule-row .subrule-dot {
   text-align: center;
   font-weight: 900 !important;
+  color: rgb(255, 74, 74);
+}
+
+.rule-row .subrule-dot.ticked {
+  text-align: center;
+  font-weight: 900 !important;
+  color: rgb(103, 214, 103);
 }
