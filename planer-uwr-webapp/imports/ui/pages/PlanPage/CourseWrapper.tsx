@@ -1,9 +1,12 @@
 import { useTracker } from 'meteor/react-meteor-data';
 import React from 'react';
 import { DraggableProvided } from 'react-beautiful-dnd';
+import { Tag } from '@blueprintjs/core';
 import { Courses } from '../../../api/courses';
 import { CourseEntry } from '../../../api/plans';
-import { shortNameByType } from '../../../utils';
+import { courseTypeById, getTextColor } from '../../../utils';
+import CourseTypeTag from './CourseTypeTag';
+import CourseEffectTag from './CourseEffectTag';
 
 interface CourseWrapperProps {
   course: CourseEntry;
@@ -29,6 +32,7 @@ export const CourseWrapper = ({
   }
 
   const source = course.source === 'courses' ? course.semester : 'Oferta';
+  const ectsPercent = (course.ects > 10) ? 10 : (course.ects * 10);
 
   return (
     <div
@@ -44,10 +48,20 @@ export const CourseWrapper = ({
           paddingBottom: 0,
         }}
       >
-        <div style={{ padding: 4, border: '1px solid red' }}>
-          <div>{course.name}</div>
+        <div className='course-wrapper-inner'>
+          <div className='course-title'>{course.name}</div>
           <div>
-            {course.ects} ECTS - {source} - {shortNameByType[course.courseType]}
+            <CourseTypeTag courseType={courseTypeById[course.courseType]} />
+            <Tag className='ects-tag' style={{
+              backgroundColor: `hsl(0, 0%, ${ectsPercent*0.7 + 15}%)`,
+              color: getTextColor([ectsPercent * 2.55, ectsPercent * 2.55, ectsPercent * 2.55])
+            }}>
+              {course.ects} ECTS
+            </Tag>
+            <Tag className='source-tag'>
+              {source}
+            </Tag>
+            <CourseEffectTag effects={course.effects} />
           </div>
         </div>
       </div>

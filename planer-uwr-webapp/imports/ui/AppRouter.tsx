@@ -14,15 +14,15 @@ export const AppRouter = () => {
 
   return (
     <Routes>
-      {user ? (
-        <>
+      {/* {user ? ( */}
+        {/* <> */}
           <Route path="/" element={<UserLandingPage />} />
           <Route path="/plan/:planId" element={<PlanPage />} />
-        </>
+        {/* </>
       ) : (
         <Route path="/" element={<LandingPage />} />
       )}
-      {!loggingIn && <Route path="/*" element={<Navigate to="/" />} />}
+      {!loggingIn && <Route path="/*" element={<Navigate to="/" />} />} */}
     </Routes>
   );
 };
