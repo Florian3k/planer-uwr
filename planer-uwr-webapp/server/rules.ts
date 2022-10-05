@@ -13,9 +13,44 @@ const project: Rule = {
   subRules: null,
 };
 
-// const getEffectsRule = (kind: "bachelor" | "engineering") => {
-
-// }
+const commonEffects: Rule['subRules'] = [
+  {
+    name: 'IO',
+    description: 'Inżynieria oprogramowania',
+    condition: true,
+    selector: [{ field: 'effects', value: [9] }],
+  },
+  {
+    name: 'PiPO',
+    description: 'Programowanie i projektowanie obiektowe',
+    condition: true,
+    selector: [{ field: 'effects', value: [2] }],
+  },
+  {
+    name: 'ASK',
+    description: 'Architektury systemów komputerowych',
+    condition: true,
+    selector: [{ field: 'effects', value: [3] }],
+  },
+  {
+    name: 'SO',
+    description: 'Systemy operacyjne',
+    condition: true,
+    selector: [{ field: 'effects', value: [5] }],
+  },
+  {
+    name: 'SK',
+    description: 'Sieci komputerowe',
+    condition: true,
+    selector: [{ field: 'effects', value: [6] }],
+  },
+  {
+    name: 'BD',
+    description: 'Bazy danych',
+    condition: true,
+    selector: [{ field: 'effects', value: [7] }],
+  },
+];
 
 export const bachelorRules: Rule[] = [
   {
@@ -42,6 +77,30 @@ export const bachelorRules: Rule[] = [
       },
     ],
     subRules: null,
+  },
+  {
+    name: 'Efekty kształcenia',
+    description: 'Efekty kształcenia',
+    condition: 28,
+    selector: [
+      {
+        field: 'courseType',
+        value: [5, 7, 36, 40],
+      },
+      {
+        field: 'effects',
+        value: [2, 3, 5, 6, 7, 9, 10],
+      },
+    ],
+    subRules: [
+      {
+        name: 'RPdI',
+        description: 'Rachunek Prawdopodobieństwa dla Informatyków',
+        condition: true,
+        selector: [{ field: 'effects', value: [4] }],
+      },
+      ...commonEffects,
+    ],
   },
 ];
 
@@ -116,42 +175,7 @@ export const engineeringRules: Rule[] = [
         condition: true,
         selector: [{ field: 'effects', value: [10] }],
       },
-      {
-        name: 'IO',
-        description: 'Inżynieria oprogramowania',
-        condition: true,
-        selector: [{ field: 'effects', value: [9] }],
-      },
-      {
-        name: 'PiPO',
-        description: 'Programowanie i projektowanie obiektowe',
-        condition: true,
-        selector: [{ field: 'effects', value: [2] }],
-      },
-      {
-        name: 'ASK',
-        description: 'Architektury systemów komputerowych',
-        condition: true,
-        selector: [{ field: 'effects', value: [3] }],
-      },
-      {
-        name: 'SO',
-        description: 'Systemy operacyjne',
-        condition: true,
-        selector: [{ field: 'effects', value: [5] }],
-      },
-      {
-        name: 'SK',
-        description: 'Sieci komputerowe',
-        condition: true,
-        selector: [{ field: 'effects', value: [6] }],
-      },
-      {
-        name: 'BD',
-        description: 'Bazy danych',
-        condition: true,
-        selector: [{ field: 'effects', value: [7] }],
-      },
+      ...commonEffects,
     ],
   },
 ];

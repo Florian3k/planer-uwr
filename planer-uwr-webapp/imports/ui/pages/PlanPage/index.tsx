@@ -62,16 +62,7 @@ export const PlanPage = () => {
   }
 
   return (
-    <div
-      style={{
-        padding: 10,
-        width: '100vw',
-        height: '100vh',
-        overflow: 'hidden',
-        display: 'grid',
-        gridTemplateRows: 'auto 1fr 200px',
-      }}
-    >
+    <div className='plan-page'>
       <DragDropContext
         onDragStart={(initial) => {
           if (initial.source.droppableId !== 'listing') {
@@ -128,21 +119,10 @@ export const PlanPage = () => {
         }}
       >
         <ListingWrapper showTrash={showTrash} />
-        <div
-          style={{
-            overflowX: 'scroll',
-            // Chrome doesn't support display: subgrid :'(
-            // display: 'subgrid',
-            gridRow: '1 / span 2',
-            display: 'grid',
-            gridTemplateRows: 'auto 1fr',
-          }}
-        >
-          <SemestersWrapper
-            courses={allCourses}
-            semesters={localPlan.semesters}
-          />
-        </div>
+        <SemestersWrapper
+          courses={allCourses}
+          semesters={localPlan.semesters}
+        />
         <RulesetSummary ruleset={ruleset} planId={localPlan._id!} />
       </DragDropContext>
     </div>

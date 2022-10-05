@@ -6,11 +6,6 @@ import { Course, Courses } from '/imports/api/courses';
 import { Plans } from '/imports/api/plans';
 import { BaseRule, Ruleset } from '/imports/api/rulesets';
 
-const bgColors: Record<string, string[]> = {
-  'green': ['#375334', '#203420'],
-  'red': ['#533434', '#342020']
-}
-
 type RulesetSummaryProps = {
   ruleset: Ruleset;
   planId: string;
@@ -46,35 +41,49 @@ export const RulesetSummary = ({ ruleset, planId }: RulesetSummaryProps) => {
     return null;
   }
 
-  const isPassing = (rule: BaseRule) => filterCourses(courses, rule) >= (rule.condition === true ? 1 : rule.condition);
-  const scoreRatio = (rule: BaseRule) => `${filterCourses(courses, rule)} / ${(rule.condition === true ? '1' : rule.condition)}`;
+  const isPassing = (rule: BaseRule) =>
+    filterCourses(courses, rule) >=
+    (rule.condition === true ? 1 : rule.condition);
+  const scoreRatio = (rule: BaseRule) =>
+    `${filterCourses(courses, rule)} / ${
+      rule.condition === true ? '1' : rule.condition
+    }`;
 
   return (
-    <div className='rule-row'>
-      <div className='title'>{ruleset.name}</div>
+    <div className="rule-row">
+      <div className="title">{ruleset.name}</div>
       {ruleset.rules.map((rule, idx) => {
         return (
-          <div key={ruleset._id + rule.name + idx} className={`rule ${isPassing(rule) ? 'ticked' : ''}`}>
-            <div className='score'>
-              {scoreRatio(rule)}
-            </div>
-            <div className='entry'>
+          <div
+            key={ruleset._id + rule.name + idx}
+            className={`rule ${isPassing(rule) ? 'ticked' : ''}`}
+          >
+            <div className="score">{scoreRatio(rule)}</div>
+            <div className="entry">
               <RuleEntry rule={rule} />
             </div>
-            {rule.subRules && rule.subRules.map((rule, idx) => {
-              const ruleKey = courseEffects.reduce<number>((total, effect) => (
-                (!total && effect.value === rule.name) ? effect.key : total), 0);
-              return (
-                <div className='subrule-unit' key={ruleset._id + rule.name + idx}>
-                  <CourseEffectTag effects={[ruleKey]} margin={0} />
-                  <div className={`subrule-dot ${isPassing(rule) ? 'ticked' : ''}`}>
-                    •
+            {rule.subRules &&
+              rule.subRules.map((rule, idx) => {
+                const ruleKey = courseEffects.reduce(
+                  (total, effect) =>
+                    !total && effect.value === rule.name ? effect.key : total,
+                  0,
+                );
+                return (
+                  <div
+                    className="subrule-unit"
+                    key={ruleset._id + rule.name + idx}
+                  >
+                    <CourseEffectTag
+                      effects={[ruleKey]}
+                      margin={0}
+                      type={isPassing(rule) ? 'passing' : 'failing'}
+                    />
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
-        )
+        );
       })}
     </div>
   );

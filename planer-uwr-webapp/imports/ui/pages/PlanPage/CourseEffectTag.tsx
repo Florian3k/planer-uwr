@@ -2,46 +2,50 @@ import React from 'react';
 import { Tag } from '@blueprintjs/core';
 
 interface CourseEffect {
-  key: number,
-  value: string,
+  key: number;
+  value: string;
 }
 
 export const courseEffects: CourseEffect[] = [
   {
     key: 2,
-    value: 'PiPO'
+    value: 'PiPO',
   },
   {
     key: 3,
-    value: 'ASK'
+    value: 'ASK',
+  },
+  {
+    key: 4,
+    value: 'RPdI',
   },
   {
     key: 5,
-    value: 'SO'
+    value: 'SO',
   },
   {
     key: 6,
-    value: 'SK'
+    value: 'SK',
   },
   {
     key: 7,
-    value: 'BD'
+    value: 'BD',
   },
   {
     key: 9,
-    value: 'IO'
+    value: 'IO',
   },
   {
     key: 10,
-    value: 'RPiS'
+    value: 'RPiS',
   },
 ];
 
 export const courseEffectTagType = {
-  passing: { borderBottom: '2px solid rgb(103, 214, 103)', backgroundColor: '##C0D6BF' },
-  failing: { borderBottom: '2px solid rgb(255, 74, 74)', backgroundColor: '##D6BFBF' },
-  none: { border: 'auto', backgroundColor: 'auto' },
-}
+  passing: { borderBottom: '3px solid rgb(45, 221, 45)' },
+  failing: { borderBottom: '3px solid rgb(255, 22, 22)' },
+  none: {},
+};
 
 interface CourseEffectTagProps {
   effects: number[];
@@ -51,19 +55,21 @@ interface CourseEffectTagProps {
 
 const CourseEffectTag = (props: CourseEffectTagProps) => (
   <>
-    {courseEffects.map(({ key, value }) => (
-      props.effects.includes(key) ? (
-        <Tag
-          style={{
-            marginLeft: (props.margin != null) ? props.margin : 5,
-            ...courseEffectTagType[props.type || 'none'],
-          }}
-          key={key}
-        >
-          {value}
-        </Tag>
-      ) : null
-    )).filter((val) => val)}
+    {courseEffects
+      .map(({ key, value }) =>
+        props.effects.includes(key) ? (
+          <Tag
+            style={{
+              marginLeft: props.margin ?? 5,
+              ...courseEffectTagType[props.type || 'none'],
+            }}
+            key={key}
+          >
+            {value}
+          </Tag>
+        ) : null,
+      )
+      .filter((val) => val)}
   </>
 );
 

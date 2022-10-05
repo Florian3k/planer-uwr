@@ -60,7 +60,7 @@ export const ListingWrapper = ({ showTrash }: ListingWrapperProps) => {
 
   return (
     <>
-      <div style={{ gridRow: 1, width: 300 }}>
+      <div className='listing-searchbar'>
         <input
           className="bp3-input"
           style={{ width: '45%', marginRight: 5 }}
@@ -75,24 +75,11 @@ export const ListingWrapper = ({ showTrash }: ListingWrapperProps) => {
           onChange={(e) => setSourceSemester(e.target.value)}
         />
       </div>
-      <div
-        style={{
-          gridRow: 2,
-          width: 300,
-          position: 'relative',
-          height: '100%',
-          overflow: 'hidden',
-        }}
-      >
+      <div className='listing-results'>
         <Droppable droppableId="listing" isDropDisabled>
           {(provided) => (
             <div
-              style={{
-                width: 300,
-                height: '100%',
-                overflowY: 'scroll',
-                overflowX: 'hidden',
-              }}
+              className='listing-results-inner'
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
