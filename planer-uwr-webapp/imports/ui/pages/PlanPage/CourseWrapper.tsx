@@ -70,7 +70,7 @@ export const CourseWrapper = ({
                   hoverOpenDelay={300}
                 >
                   <img
-                    src="https://avatars.githubusercontent.com/u/265236"
+                    src="https://github.com/cahirwpz.png"
                     style={{ borderRadius: 4 }}
                     width={22}
                     height={22}
