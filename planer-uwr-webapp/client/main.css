@@ -1,6 +1,47 @@
 body {
   font-family: sans-serif;
-  background-color: #293742;
+  /* background-color: #293742; */
+  background-color: #202b34;
+}
+
+.plan-page {
+  padding: 10px 0 10px 10px;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr 200px;
+}
+
+.listing-searchbar {
+  grid-row: 1;
+  width: 300px;
+}
+
+.listing-results {
+  grid-row: 2;
+  width: 303px;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.listing-results-inner {
+  width: 303px;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.semesters-wrapper {
+  overflow-x: scroll;
+  grid-row: 1 / span 2;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.course-wrapper {
+  padding: 5px 0;
 }
 
 .course-wrapper-clone {
@@ -13,4 +54,198 @@ body {
 
 .course-wrapper-clone ~ div {
   transform: none !important;
+}
+
+.course-wrapper-inner {
+  width: 290px;
+  background-color: #293742;
+  border-radius: 5px;
+  padding: 5px;
+  box-shadow: #1b242c 2px 5px 2px;
+  text-align: left;
+}
+
+.course-wrapper-inner .course-title {
+  margin-bottom: 7px;
+}
+
+.course-wrapper-inner .source-tag {
+  background-color: #1b242c !important;
+  color: #adadad !important;
+  margin-left: 5px;
+}
+
+.course-wrapper-inner .ects-tag {
+  margin-left: 5px;
+}
+
+.semester-wrapper {
+  grid-row: 2;
+  width: 300px;
+  padding: 10px 0 0 10px;
+  text-align: center;
+}
+
+.semester-wrapper > span.empty-semester {
+  display: inline-block;
+  padding-top: 5px;
+  opacity: 0.6;
+  font-size: 1.2em;
+}
+
+.semester-heading {
+  padding: 0 20px;
+}
+
+.semester-heading .semester-title {
+  font-weight: 900;
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.semester-heading .ects {
+  width: 25px;
+  display: inline-block;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.semester-heading .desc {
+  display: inline-block;
+  color: #7d95a8;
+}
+
+@keyframes linear-progress-bar-stripes {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 100% 0;
+  }
+}
+
+.trash {
+  --bg-color: rgba(255, 0, 0, 0.1);
+  --fg-color: rgba(255, 0, 0, 0.3);
+  position: absolute;
+  background-image: linear-gradient(
+    45deg,
+    var(--bg-color) 25%,
+    var(--fg-color) 25%,
+    var(--fg-color) 50%,
+    var(--bg-color) 50%,
+    var(--bg-color) 75%,
+    var(--fg-color) 75%
+  );
+  background-size: 100px 100px;
+  width: 303px;
+  height: 100%;
+  font-size: 40px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  animation: linear-progress-bar-stripes 4000ms linear infinite reverse;
+  z-index: 100;
+}
+
+.trash .trash-icon {
+  text-align: center;
+  margin-top: 50%;
+  opacity: 0.75;
+}
+
+.trash .trash-icon .trash-title {
+  font-size: 14px;
+  margin-top: 30px;
+}
+
+.rule {
+  background: linear-gradient(90deg, #533434, #344653 10%, transparent 70%);
+  color: rgb(255, 74, 74);
+}
+
+.rule:nth-child(even) {
+  background: linear-gradient(90deg, #342020, #202b34 10%, transparent 70%);
+}
+
+.rule.ticked {
+  background: linear-gradient(90deg, #375334, #344653 10%, transparent 70%);
+  color: rgb(103, 214, 103);
+}
+
+.rule.ticked:nth-child(even) {
+  background: linear-gradient(90deg, #203420, #202b34 10%, transparent 70%);
+}
+
+.rule-row {
+  grid-column: 1 / span 500;
+  /* border-top: 2px solid #202B34; */
+  box-shadow: #1b242c 0px -5px 5px;
+  z-index: 1;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.rule-row .subrule-unit {
+  display: inline-block;
+  margin-left: 5px;
+  vertical-align: top;
+}
+
+.rule-row .title {
+  position: absolute;
+  right: 10px;
+  margin: 10px;
+  font-size: 20px;
+  color: #637585;
+}
+
+.rule-row .score {
+  display: inline-block;
+  text-align: left;
+  width: 70px;
+  margin-right: 20px;
+  margin-top: 1px;
+  text-align: right;
+  vertical-align: middle;
+  line-height: 20px;
+}
+
+.rule-row .entry {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.rule-row .rule {
+  padding: 6px;
+}
+
+.rule-row .subrule-dot {
+  text-align: center;
+  font-weight: 900 !important;
+  color: rgb(255, 74, 74);
+}
+
+.rule-row .subrule-dot.ticked {
+  text-align: center;
+  font-weight: 900 !important;
+  color: rgb(103, 214, 103);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #88888855;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #66666655;
 }

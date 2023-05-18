@@ -1,4 +1,4 @@
-import { HTMLSelect } from '@blueprintjs/core';
+import { HTMLSelect, Icon } from '@blueprintjs/core';
 import { Mongo } from 'meteor/mongo';
 import { useTracker } from 'meteor/react-meteor-data';
 import React, { useState } from 'react';
@@ -60,9 +60,10 @@ export const ListingWrapper = ({ showTrash }: ListingWrapperProps) => {
 
   return (
     <>
-      <div style={{ gridRow: 1, width: 300 }}>
+      <div className='listing-searchbar'>
         <input
           className="bp3-input"
+          style={{ width: '45%', marginRight: 5 }}
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
           placeholder="Filtruj przedmioty"
@@ -70,50 +71,34 @@ export const ListingWrapper = ({ showTrash }: ListingWrapperProps) => {
         <HTMLSelect
           value={sourceSemester}
           options={semestersNames}
+          style={{ display: 'inline-block' }}
           onChange={(e) => setSourceSemester(e.target.value)}
         />
       </div>
-      <div
-        style={{
-          gridRow: 2,
-          width: 300,
-          position: 'relative',
-          height: '100%',
-          overflow: 'hidden',
-        }}
-      >
-        <Droppable droppableId="trash" isDropDisabled={!showTrash}>
-          {(provided) => (
-            <div
-              style={{
-                position: 'absolute',
-                background: 'rgba(255, 0, 0, 0.5)',
-                width: 300,
-                height: 300,
-                fontSize: 40,
-                visibility: showTrash ? 'unset' : 'hidden',
-              }}
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              KOSZ
-              <div>{provided.placeholder}</div>
-            </div>
-          )}
-        </Droppable>
+      <div className='listing-results'>
         <Droppable droppableId="listing" isDropDisabled>
           {(provided) => (
             <div
-              style={{
-                width: 300,
-                border: '1px solid green',
-                height: '100%',
-                overflowY: 'scroll',
-                overflowX: 'hidden',
-              }}
+              className='listing-results-inner'
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
+              <Droppable droppableId="trash" isDropDisabled={!showTrash}>
+                {(provided) => (
+                  <div
+                    className='trash'
+                    style={{ visibility: showTrash ? 'unset' : 'hidden' }}
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    <div className="trash-icon">
+                      <Icon icon="trash" size={64} />
+                      <div className="trash-title">Przeciągnij tutaj aby usunąć</div>
+                    </div>
+                    <div>{provided.placeholder}</div>
+                  </div>
+                )}
+              </Droppable>
               {courses.map((course, courseIndex) => (
                 <Draggable
                   draggableId={`listing-${course._id}`}

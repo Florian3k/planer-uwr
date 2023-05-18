@@ -16,7 +16,7 @@ export const SemestersWrapper = ({
   let sum = 0;
 
   return (
-    <>
+    <div className='semesters-wrapper'>
       {semesters.map((semester, index) => {
         if (semester.isGap) {
           return (
@@ -54,6 +54,6 @@ export const SemestersWrapper = ({
           />
         );
       })}
-    </>
+    </div>
   );
 };

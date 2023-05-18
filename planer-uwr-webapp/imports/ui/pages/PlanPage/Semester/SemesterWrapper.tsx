@@ -27,39 +27,43 @@ export const SemesterWrapper = ({
   }
   return (
     <>
-      <div style={{ gridRow: 1 }}>
-        <div>Semestr {semester.semesterNumber}</div>
-        <div>ECTS w tym semestrze: {ects}</div>
-        <div>ECTS do tej pory: {totalEcts}</div>
+      <div className="semester-heading">
+        <div className="semester-title">Semestr {semester.semesterNumber}</div>
+        <div>
+          <div className="ects">{ects}</div>
+          <div className="desc">ECTS w tym semestrze</div>
+        </div>
+        <div>
+          <div className="ects">{totalEcts}</div>
+          <div className="desc">ECTS do tej pory</div>
+        </div>
       </div>
-      <div style={{ gridRow: 2, width: 300 }}>
-        <Droppable droppableId={semester.semesterNumber.toString()}>
-          {(provided) => (
-            <div
-              style={{ height: '100%', border: '1px solid blue', width: 300 }}
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {semester.courses.length ? (
-                semester.courses.map((course, courseIndex) => (
-                  <Draggable
-                    draggableId={`${semester.semesterNumber}-${courseIndex}-${course.id}`}
-                    index={courseIndex}
-                    key={`${semester.semesterNumber}-${courseIndex}-${course.id}`}
-                  >
-                    {(provided) => (
-                      <CourseWrapper course={course} provided={provided} />
-                    )}
-                  </Draggable>
-                ))
-              ) : (
-                <div>Brak przedmiotów</div>
-              )}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </div>
+      <Droppable droppableId={semester.semesterNumber.toString()}>
+        {(provided) => (
+          <div
+            className="semester-wrapper"
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            {semester.courses.length ? (
+              semester.courses.map((course, courseIndex) => (
+                <Draggable
+                  draggableId={`${semester.semesterNumber}-${courseIndex}-${course.id}`}
+                  index={courseIndex}
+                  key={`${semester.semesterNumber}-${courseIndex}-${course.id}`}
+                >
+                  {(provided) => (
+                    <CourseWrapper course={course} provided={provided} />
+                  )}
+                </Draggable>
+              ))
+            ) : (
+              <span className="empty-semester">Brak przedmiotów</span>
+            )}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
     </>
   );
 };
