@@ -32,6 +32,14 @@ const RuleEntry = (props: RuleEntryProps) => {
                     <Separator value="" />
                 </span>
             );
+        case 'Proseminarium':
+            return (
+                <span>
+                    <CourseTypeTag courseType={courseTypeById['14']} />
+                    <Separator value="+" />
+                    <CourseTypeTag courseType={courseTypeById['41']} />
+                </span>
+            );
         case 'Łącznie przedmioty O + I + K + P':
             return (
                 <span>
@@ -43,7 +51,7 @@ const RuleEntry = (props: RuleEntryProps) => {
                     <Separator value="+" />
                     <CourseTypeTag courseType={generalCourseTypes['4']} />
                 </span>
-            )
+            );
         case 'przedmioty informatyczne inż.':
             return (
                 <span>

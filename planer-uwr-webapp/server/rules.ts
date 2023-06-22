@@ -13,6 +13,19 @@ const project: Rule = {
   subRules: null,
 };
 
+const proseminar: Rule = {
+  name: 'Proseminarium',
+  description: 'Proseminarium',
+  condition: true,
+  selector: [
+    {
+      field: 'courseType',
+      value: [14, 41],
+    },
+  ],
+  subRules: null,
+};
+
 const commonEffects: Rule['subRules'] = [
   {
     name: 'IO',
@@ -66,6 +79,7 @@ export const bachelorRules: Rule[] = [
     subRules: null,
   },
   project,
+  proseminar,
   {
     name: 'O+I+K+P >= 140',
     description: 'Łącznie przedmioty O + I + K + P',
@@ -142,6 +156,7 @@ export const engineeringRules: Rule[] = [
     subRules: null,
   },
   project,
+  proseminar,
   {
     name: 'O+I+K+P >= 170',
     description: 'Łącznie przedmioty O + I + K + P',
